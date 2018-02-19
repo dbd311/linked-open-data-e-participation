@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.8.8",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chai-sinon": "^0.1.5",
+    "karma-chrome-launcher": "^0.2.3",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.8",
+    "karma-mocha": "^0.2.2",
+    "karma-mocha-reporter": "^2.0.0",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "mocha": "^2.4.5",
+    "phantomjs-prebuilt": "^2.1.6",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0"
+  },
+  "dependencies": {
+    "bootstrap-sass": "^3.0.0",
+    "grunt": "^0.4.5",
+    "laravel-elixir": "^3.0.0"
+  }
+}

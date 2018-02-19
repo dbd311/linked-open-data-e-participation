@@ -1,0 +1,873 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY sioc "http://rdfs.org/sioc/ns#" >
+    <!ENTITY dcterms "http://purl.org/dc/terms/" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY skos "http://www.w3.org/2004/02/skos/core#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY prv "http://lod-dk/ontologies/ProvisionModel#" >
+    <!ENTITY cdm "http://publications.europa.eu/ontology/cdm#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY lod "http://lod-dk/ontologies/LOD_Epartcipation#" >
+    <!ENTITY at "http://publications.europa.eu/resource/authority#" >
+]>
+
+
+<rdf:RDF xmlns="http://lod-dk/ontologies/LOD_Eparticipation#"
+     xml:base="http://lod-dk/ontologies/LOD_Eparticipation"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:prv="http://lod-dk/ontologies/ProvisionModel#"
+     xmlns:at="http://publications.europa.eu/resource/authority#"
+     xmlns:lod="http://lod-dk/ontologies/LOD_Epartcipation#"
+     xmlns:dcterms="http://purl.org/dc/terms/"
+     xmlns:sioc="http://rdfs.org/sioc/ns#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:cdm="http://publications.europa.eu/ontology/cdm#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:skos="http://www.w3.org/2004/02/skos/core#">
+    <owl:Ontology rdf:about="http://lod-dk/ontologies/LOD_Eparticipation#">
+        <owl:versionInfo>Revision: 1.02</owl:versionInfo>
+        <dc:creator>FRANCESCONI Enrico and BATOUCHE Brahim </dc:creator>
+        <dc:date>2016-08-24</dc:date>
+        <dcterms:title xml:lang="en">Electronic Partcipation Model (EPM) Core Ontology Namespace</dcterms:title>
+        <rdfs:comment xml:lang="en">The Electronic Partcipation Model (EPM) of the Publications Office is an ontology for describing the information in online communities. 
+This information can be used to export information from online communities and to link them together with a legal resource. The scope of the application areas that EPM can be used for includes (and is not limited to) weblogs, 
+message boards, mailing lists and chat channels. The concepts of this ontology are already specified in SIOC, CDM, FOAF, and SKOS.</rdfs:comment>
+        <dc:language>en</dc:language>
+        <dc:description rdf:resource="http://lod-dk:8000/ontologies/lodep_ontology.jpg"/>
+        <rdfs:seeAlso rdf:resource="http://rdfs.org/sioc/spec"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#directory_code -->
+
+    <owl:AnnotationProperty rdf:about="&lod;directory_code">
+        <rdfs:comment xml:lang="en">This property describe the directory code, which corresponds to the property cdm:resource_legal_is_about_concept_directory-code.</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Forum"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#id_celex -->
+
+    <owl:AnnotationProperty rdf:about="&lod;id_celex">
+        <rdfs:comment xml:lang="en">The property describe the id_celex, which corresponds to the property cdm:resource_legal_number_natural_celex.</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Forum"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#nationality -->
+
+    <owl:AnnotationProperty rdf:about="&lod;nationality">
+        <rdfs:label xml:lang="en">nationality</rdfs:label>
+        <rdfs:comment xml:lang="en">The nationality of the user</rdfs:comment>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_amendment -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_amendment">
+        <rdfs:label xml:lang="en">num_amendment</rdfs:label>
+        <rdfs:comment xml:lang="en">The total number of amendments for a specific container, in considering the amendments of belonged sub-containers</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Thread"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_amendment_na -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_amendment_na">
+        <rdfs:label xml:lang="en">num_amendment_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The total number of amendments for a specific container, in considering the amendments of belonged sub-containers (&quot;na&quot; means no aggregate)</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Thread"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_deletion -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_deletion">
+        <rdfs:label xml:lang="en">num_deletion</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of deletions for a specific container, in concidering the deletion of belonged sub-containers</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Thread"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_deletion_na -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_deletion_na">
+        <rdfs:label xml:lang="en">num_deletion_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of deletions for a specific container, in concidering the deletion of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Thread"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_insertion -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_insertion">
+        <rdfs:label xml:lang="en">num_insertion</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of insertions for a specific container, in concidering the insertion of belonged sub-containers</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Thread"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_insertion_na -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_insertion_na">
+        <rdfs:label xml:lang="en">num_insertion_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of insertions for a specific container, in concidering the insertions of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Thread"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_mixed -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_items_mixed">
+        <rdfs:label xml:lang="en">num_items_mixed</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of neutral comments for a specific container, in concidering the comments of belonged sub-containers</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Container"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_mixed_na -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_items_mixed_na">
+        <rdfs:label xml:lang="en">num_items_mixed_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of neutral comments for a specific container, without concidering the comments of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Container"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_no -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_items_no">
+        <rdfs:label xml:lang="en">num_items_no </rdfs:label>
+        <rdfs:comment xml:lang="en">The number of negative comments for a specific container, in concidering the comments of belonged sub-containers </rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Container"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_no_na -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_items_no_na">
+        <rdfs:label xml:lang="en">num_items_no_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of negative comments for a specific container, without concidering the comments of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Container"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_total -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_items_total">
+        <rdfs:label xml:lang="en">num_items_total </rdfs:label>
+        <rdfs:comment xml:lang="en">The number of total comments for a specific container, in concidering the comments of belonged sub-containers</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Container"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_total_na -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_items_total_na">
+        <rdfs:label xml:lang="en">num_items_total_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The total number of comments for a specific container, without concidering the comments of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Container"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_yes -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_items_yes">
+        <rdfs:label xml:lang="en">num_items_yes</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of positive comments for a specific container, in concidering the comments of belonged sub-containers</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Container"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_yes_na -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_items_yes_na">
+        <rdfs:label xml:lang="en">num_items_yes_na </rdfs:label>
+        <rdfs:comment xml:lang="en">The number of positive comments for a specific container, without concidering the comments of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Container"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_substitution -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_substitution">
+        <rdfs:label xml:lang="en">num_substitution</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of substitutions for a specific container, in concidering the substitution of belonged sub-containers </rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Thread"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_substitution_na -->
+
+    <owl:AnnotationProperty rdf:about="&lod;num_substitution_na">
+        <rdfs:label xml:lang="en">num_substitution_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of substitutions for a specific container, in concidering the substitutions of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Thread"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#password -->
+
+    <owl:AnnotationProperty rdf:about="&lod;password">
+        <rdfs:domain rdf:resource="&sioc;UserAccount"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#procedure_code -->
+
+    <owl:AnnotationProperty rdf:about="&lod;procedure_code">
+        <rdfs:comment xml:lang="en">The property correspond to cdm:procedure_code_interinstitutional_reference_procedure</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Forum"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#procedure_number -->
+
+    <owl:AnnotationProperty rdf:about="&lod;procedure_number">
+        <rdfs:comment xml:lang="en">The property corresponds at: cdm:procedure_code_interinstitutional_number_procedure</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Forum"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#procedure_type -->
+
+    <owl:AnnotationProperty rdf:about="&lod;procedure_type">
+        <rdfs:label xml:lang="en">procedure_type</rdfs:label>
+        <rdfs:comment xml:lang="en">The procedure_type property corresponds to: cdm:procedure_code_interinstitutional_has_type_concept_type_procedure_code_interinstitutional</rdfs:comment>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#procedure_year -->
+
+    <owl:AnnotationProperty rdf:about="&lod;procedure_year">
+        <rdfs:label xml:lang="en">procedure_year</rdfs:label>
+        <rdfs:comment xml:lang="en">The property procedure_year correspond at: cdm:procedure_code_interinstitutional_year_procedure</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Forum"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#reputation -->
+
+    <owl:AnnotationProperty rdf:about="&lod;reputation">
+        <rdfs:label xml:lang="en">reputation</rdfs:label>
+        <rdfs:comment xml:lang="en">The reputation of user is computed according to specifics function and in considering a specific events</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;UserAccount"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#subject -->
+
+    <owl:AnnotationProperty rdf:about="&lod;subject">
+        <rdfs:label xml:lang="en">subject</rdfs:label>
+        <rdfs:comment xml:lang="en">The subject of the act (sub-part of the title)</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Forum"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#title -->
+
+    <owl:AnnotationProperty rdf:about="&lod;title">
+        <rdfs:label xml:lang="en">title</rdfs:label>
+        <rdfs:comment xml:lang="en">The title of the act, i.e. legal resource</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Forum"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#token_date -->
+
+    <owl:AnnotationProperty rdf:about="&lod;token_date">
+        <rdfs:comment xml:lang="en">The propery correspond to the deadline given to the user to modify his passeword. </rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;UserAccount"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#token_id -->
+
+    <owl:AnnotationProperty rdf:about="&lod;token_id">
+        <rdfs:comment xml:lang="en">The property is a randome number given to the user, in order to modify his passeword. This property is crypted.</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;UserAccount"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#topic -->
+
+    <owl:AnnotationProperty rdf:about="&lod;topic">
+        <rdfs:label xml:lang="en">topic</rdfs:label>
+        <rdfs:comment xml:lang="en">The property corresponds to cdm:work_is_about_concept_eurovoc. 
+There existe in cdm another property cdm:is_about_*, but we consider only the eurovoc concept.</rdfs:comment>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.w3.org/1999/02/22-rdf-syntax-ns#LangString -->
+
+    <rdfs:Datatype rdf:about="&rdf;LangString"/>
+    
+
+
+    <!-- http://www.w3.org/1999/02/22-rdf-syntax-ns#Literal -->
+
+    <rdfs:Datatype rdf:about="&rdf;Literal"/>
+    
+
+
+    <!-- http://www.w3.org/2001/XMLSchema#gYear -->
+
+    <rdfs:Datatype rdf:about="&xsd;gYear"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#contained -->
+
+    <owl:ObjectProperty rdf:about="&lod;contained">
+        <rdfs:label xml:lang="en">contained</rdfs:label>
+        <rdfs:comment xml:lang="en">this property links the amendment to the post, if the amendment contains post</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ContentAmendment"/>
+        <rdfs:range rdf:resource="&sioc;Post"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#contains -->
+
+    <owl:ObjectProperty rdf:about="&lod;contains">
+        <rdfs:label xml:lang="en">contains</rdfs:label>
+        <rdfs:comment xml:lang="en">this property links the post to the amendment, if the post contains amendment</rdfs:comment>
+        <owl:inverseOf rdf:resource="&lod;contained"/>
+        <rdfs:range rdf:resource="&prv;ContentAmendment"/>
+        <rdfs:domain rdf:resource="&sioc;Post"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#nationality -->
+
+    <owl:ObjectProperty rdf:about="&lod;nationality">
+        <rdfs:label xml:lang="en">nationality</rdfs:label>
+        <rdfs:comment xml:lang="en">The nationality of the user</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;UserAccount"/>
+        <rdfs:range rdf:resource="http://schema.org#country"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#procedure_type -->
+
+    <owl:ObjectProperty rdf:about="&lod;procedure_type">
+        <rdfs:label xml:lang="en">procedure_type</rdfs:label>
+        <rdfs:comment xml:lang="en">The procedure_type property corresponds to: cdm:procedure_code_interinstitutional_has_type_concept_type_procedure_code_interinstitutional</rdfs:comment>
+        <rdfs:range rdf:resource="&cdm;concept_type_procedure_code_interinstitutional"/>
+        <rdfs:domain rdf:resource="&sioc;Forum"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#topic -->
+
+    <owl:ObjectProperty rdf:about="&lod;topic">
+        <rdfs:label xml:lang="en">topic</rdfs:label>
+        <rdfs:comment xml:lang="en">The property corresponds to cdm:work_is_about_concept_eurovoc. 
+There existe in cdm another property cdm:is_about_*, but we consider only the eurovoc concept.</rdfs:comment>
+        <rdfs:range rdf:resource="&cdm;concept"/>
+        <rdfs:domain rdf:resource="&sioc;Forum"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#amended_at -->
+
+    <owl:DatatypeProperty rdf:about="&lod;amended_at">
+        <rdfs:comment>This property is used when the user edite his comment and gives modification. The timesteemp of this modification  is descriped in this property. Outherwise, this property is empty. </rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Post"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#created_at -->
+
+    <owl:DatatypeProperty rdf:about="&lod;created_at">
+        <rdfs:comment>This property describe the date of the creation of act, which correspond to the property cdm:cdm:work_date_document.</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Forum"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#directory_code -->
+
+    <owl:DatatypeProperty rdf:about="&lod;directory_code">
+        <rdfs:comment xml:lang="en">This property describe the directory code, which corresponds to the property cdm:resource_legal_is_about_concept_directory-code.</rdfs:comment>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#id_celex -->
+
+    <owl:DatatypeProperty rdf:about="&lod;id_celex">
+        <rdfs:comment xml:lang="en">The property describe the id_celex, which corresponds to the property cdm:resource_legal_number_natural_celex.</rdfs:comment>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_amendment -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_amendment">
+        <rdfs:label xml:lang="en">num_amendment</rdfs:label>
+        <rdfs:comment xml:lang="en">The total number of amendments for a specific container, in considering the amendments of belonged sub-containers</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_amendment_na -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_amendment_na">
+        <rdfs:label xml:lang="en">num_amendment_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The total number of amendments for a specific container, in considering the amendments of belonged sub-containers (&quot;na&quot; means no aggregate)</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_deletion -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_deletion">
+        <rdfs:label xml:lang="en">num_deletion</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of deletions for a specific container, in concidering the deletion of belonged sub-containers</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_deletion_na -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_deletion_na">
+        <rdfs:label xml:lang="en">num_deletion_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of deletions for a specific container, in concidering the deletion of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_dislike -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_dislike">
+        <rdfs:label xml:lang="en">num_dislike</rdfs:label>
+        <rdfs:comment xml:lang="en">The num_dislike of the post, which given by the authers posts. These posts give only the note</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Post"/>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_insertion -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_insertion">
+        <rdfs:label xml:lang="en">num_insertion</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of insertions for a specific container, in concidering the insertion of belonged sub-containers</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_insertion_na -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_insertion_na">
+        <rdfs:label xml:lang="en">num_insertion_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of insertions for a specific container, in concidering the insertions of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_mixed -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_items_mixed">
+        <rdfs:label xml:lang="en">num_items_mixed</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of neutral comments for a specific container, in concidering the comments of belonged sub-containers</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_mixed_na -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_items_mixed_na">
+        <rdfs:label xml:lang="en">num_items_mixed_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of neutral comments for a specific container, without concidering the comments of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_no -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_items_no">
+        <rdfs:label xml:lang="en">num_items_no </rdfs:label>
+        <rdfs:comment xml:lang="en">The number of negative comments for a specific container, in concidering the comments of belonged sub-containers </rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_no_na -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_items_no_na">
+        <rdfs:label xml:lang="en">num_items_no_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of negative comments for a specific container, without concidering the comments of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_total -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_items_total">
+        <rdfs:label xml:lang="en">num_items_total </rdfs:label>
+        <rdfs:comment xml:lang="en">The number of total comments for a specific container, in concidering the comments of belonged sub-containers</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_total_na -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_items_total_na">
+        <rdfs:label xml:lang="en">num_items_total_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The total number of comments for a specific container, without concidering the comments of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_yes -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_items_yes">
+        <rdfs:label xml:lang="en">num_items_yes</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of positive comments for a specific container, in concidering the comments of belonged sub-containers</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_items_yes_na -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_items_yes_na">
+        <rdfs:label xml:lang="en">num_items_yes_na </rdfs:label>
+        <rdfs:comment xml:lang="en">The number of positive comments for a specific container, without concidering the comments of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_like -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_like">
+        <rdfs:label xml:lang="en">num_like</rdfs:label>
+        <rdfs:comment xml:lang="en">The num_like of the post, which given by the authers posts. These posts give only the note</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Post"/>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_substitution -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_substitution">
+        <rdfs:label xml:lang="en">num_substitution</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of substitutions for a specific container, in concidering the substitution of belonged sub-containers </rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#num_substitution_na -->
+
+    <owl:DatatypeProperty rdf:about="&lod;num_substitution_na">
+        <rdfs:label xml:lang="en">num_substitution_na</rdfs:label>
+        <rdfs:comment xml:lang="en">The number of substitutions for a specific container, in concidering the substitutions of belonged sub-containers (&quot;na&quot; means no aggregated)</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#password -->
+
+    <owl:DatatypeProperty rdf:about="&lod;password">
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#procedure_code -->
+
+    <owl:DatatypeProperty rdf:about="&lod;procedure_code">
+        <rdfs:comment xml:lang="en">The property correspond to cdm:procedure_code_interinstitutional_reference_procedure</rdfs:comment>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#procedure_number -->
+
+    <owl:DatatypeProperty rdf:about="&lod;procedure_number">
+        <rdfs:comment xml:lang="en">The property corresponds at: cdm:procedure_code_interinstitutional_number_procedure</rdfs:comment>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#procedure_year -->
+
+    <owl:DatatypeProperty rdf:about="&lod;procedure_year">
+        <rdfs:label xml:lang="en">procedure_year</rdfs:label>
+        <rdfs:comment xml:lang="en">The property procedure_year correspond at: cdm:procedure_code_interinstitutional_year_procedure</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;gYear"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#reputation -->
+
+    <owl:DatatypeProperty rdf:about="&lod;reputation">
+        <rdfs:label xml:lang="en">reputation</rdfs:label>
+        <rdfs:comment xml:lang="en">The reputation of user is computed according to specifics function and in considering a specific events</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#subject -->
+
+    <owl:DatatypeProperty rdf:about="&lod;subject">
+        <rdfs:label xml:lang="en">subject</rdfs:label>
+        <rdfs:comment xml:lang="en">The subject of the act (sub-part of the title)</rdfs:comment>
+        <rdfs:range rdf:resource="&rdf;LangString"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#tag -->
+
+    <owl:DatatypeProperty rdf:about="&lod;tag">
+        <rdfs:label xml:lang="en">tag</rdfs:label>
+        <rdfs:comment xml:lang="en">The tag of the post, which corresponds to the thematics of the comments</rdfs:comment>
+        <rdfs:domain rdf:resource="&sioc;Post"/>
+        <rdfs:range rdf:resource="&rdf;LangString"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#title -->
+
+    <owl:DatatypeProperty rdf:about="&lod;title">
+        <rdfs:label xml:lang="en">title</rdfs:label>
+        <rdfs:comment xml:lang="en">The title of the act, i.e. legal resource</rdfs:comment>
+        <rdfs:range rdf:resource="&rdf;LangString"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#token_date -->
+
+    <owl:DatatypeProperty rdf:about="&lod;token_date">
+        <rdfs:comment xml:lang="en">The propery correspond to the deadline given to the user to modify his passeword. </rdfs:comment>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Epartcipation#token_id -->
+
+    <owl:DatatypeProperty rdf:about="&lod;token_id">
+        <rdfs:comment xml:lang="en">The property is a randome number given to the user, in order to modify his passeword. This property is crypted.</rdfs:comment>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#ContentAmendment -->
+
+    <owl:Class rdf:about="&prv;ContentAmendment"/>
+    
+
+
+    <!-- http://publications.europa.eu/ontology/cdm#concept -->
+
+    <owl:Class rdf:about="&cdm;concept"/>
+    
+
+
+    <!-- http://publications.europa.eu/ontology/cdm#concept_type_procedure_code_interinstitutional -->
+
+    <owl:Class rdf:about="&cdm;concept_type_procedure_code_interinstitutional"/>
+    
+
+
+    <!-- http://rdfs.org/sioc/ns#Container -->
+
+    <owl:Class rdf:about="&sioc;Container"/>
+    
+
+
+    <!-- http://rdfs.org/sioc/ns#Forum -->
+
+    <owl:Class rdf:about="&sioc;Forum"/>
+    
+
+
+    <!-- http://rdfs.org/sioc/ns#Post -->
+
+    <owl:Class rdf:about="&sioc;Post"/>
+    
+
+
+    <!-- http://rdfs.org/sioc/ns#Thread -->
+
+    <owl:Class rdf:about="&sioc;Thread"/>
+    
+
+
+    <!-- http://rdfs.org/sioc/ns#UserAccount -->
+
+    <owl:Class rdf:about="&sioc;UserAccount"/>
+    
+
+
+    <!-- http://schema.org#country -->
+
+    <owl:Class rdf:about="http://schema.org#country"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lod-dk/ontologies/LOD_Eparticipation# -->
+
+    <owl:Thing rdf:about="http://lod-dk/ontologies/LOD_Eparticipation#">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotations
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://rdfs.org/sioc/spec">
+        <rdfs:label>SIOC Core Ontology Specification</rdfs:label>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

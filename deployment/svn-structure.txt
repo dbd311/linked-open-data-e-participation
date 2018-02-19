@@ -1,0 +1,19 @@
+
+app
+bootstrap
+config
+database
+public
+resources
+
+
+Items to ignore:
+vendor
+nbproject
+storage***
+
+
+svn propedit svn:ignore vendor
+svn propedit svn:ignore nbproject
+
+

@@ -1,0 +1,144 @@
+The scripts inside this directory can generate comments in various languages
+and insert them in the Lodepart repository as comments on document parts.
+The comments contain lines from theater plays in English, French, Italian and
+German.
+
+
+Usage
+-----
+
+A. Populate the ``data`` sub-directory
+
+   The ``data`` sub-directory contain the lines extracted from the plays
+   and the definition of the personae. The lines and the personae are
+   extracted from the HTML version of the plays retrieved from wikisource.
+
+   If the ``data`` directory doesn't exist or is empty, the first step
+   is to populate it. If it already contains data, jump to the next step.
+
+   1. Install the following packages:
+
+      * python
+      * python-lxml
+
+   2. Create an ``input`` subdirectory that contains:
+
+      * an ``images`` sub-directory with avatar images (little jpeg images)
+      * the following sub-directories that contain the HTML pages
+        from wikisource for the corresponding theater plays:
+
+        - george_dandin
+        - le_cid
+        - les_affaires_sont_les_affaires
+        - i_pettegolezzi_delle_done
+        - othello
+        - the_importance_of_being_earnest
+        - kabale_und_liebe
+
+   3. Run the ``build_data`` script::
+
+        $ python build_data.py
+
+
+B. Create the users
+
+   The users are created from the personae of the plays. Each one has a
+   different avatar image. All the users are in the same group (named
+   "TEST").
+
+   They are created through the PHP application by sending an HTTP request
+   as if the user had filled the "Register" form. This step is quite long
+   so it is recommended to create the users once at the first time and not
+   to delete them.
+
+   1. Install the following packages:
+
+      * python
+      * python-requests
+
+   2. Start the virtuoso repository and the Lodepart PHP application.
+
+   3. Run the ``create_users`` script::
+
+        $ python create_users.py
+
+
+C. Check the existing documents
+
+   The ``check_documents`` script searches the documents that exist inside
+   the repository and tries to find the language versions of these documents
+   for the languages used for the comments generation (ie DE, EN, FR, IT).
+   The actual content of the documents is loaded from the PHP application
+   to check there is no problem for getting the data needed for the comments
+   generation.
+
+   1. Run the ``check_documents`` script::
+
+        $ python check_documents.py
+
+
+D. Create the comments
+
+   The comments are created for one given document. They rely on the play
+   lines stored in the ``data`` sub-directory and the users created in
+   the previous step.
+
+   The comments are directly stored inside the Virtuoso repository.
+   Nevertheless, the Lodepart PHP is used to retrieve some pieces of
+   information such as the content of the document.
+
+   The ``create_comments`` script needs the URI of the document that must
+   be commented (URI of the whole document without language specification).
+   The maximum number of comments in a given language for a given document
+   part can be specified thanks to the ``-c`` optional argument. The maximum
+   number of replies to a given comment can be specified thanks to the ``-r``
+   optional argument. Please note that the actual number of comments and
+   replies is randomly chosen each time.
+
+   1. Run the ``create_comments`` script. For example::
+
+        $ python create_comments.py http://localhost:8000/eli/PROP_REG/2015/0294
+
+      Another example (with optional arguments)::
+
+        $ python create_comments.py -c 40 -r 20 http://localhost:8000/eli/PROP_REG/2015/0294
+
+
+E. Delete the comments
+
+   All the comments created by the users in the "TEST" group (users created
+   during step B.) can be deleted thanks to a dedicated script. This script
+   delete the comments directly inside the Virtuoso repository.
+
+   This script doesn't work if the users have been previously deleted (cf.
+   next step)
+
+   1. Run the ``delete_comments`` script::
+
+        $ python delete_comments.py
+
+
+F. Delete the users
+
+   All the users in the "TEST" group (users created during step B.) can be
+   deleted thanks to a dedicated script.
+
+   Please be aware that this script doesn't delete the comments so you should
+   delete the comments before deleting the users. The script that deletes the
+   comments won't work if the users have been previously deleted (cf. previous
+   step).
+
+   This script directly delete the users inside the Virtuoso repository. The
+   avatar images saved by the Lodepart PHP application are not deleted. You
+   can manually delete them in ``src/public/images/avatars``.
+
+   1. Run the ``delete_users`` script::
+
+        $ python delete_users.py
+
+
+Configuration
+-------------
+
+The configuration (server addresses, etc.) is stored inside the ``const.py``
+file.

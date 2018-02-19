@@ -1,0 +1,63 @@
+# posts and replied posts
+
+PREFIX sioc: <http://rdfs.org/sioc/ns#>
+SELECT * WHERE {
+?post a sioc:Post; 
+      sioc:content ?comment;
+	  sioc:note ?note;
+	  sioc:has_container ?container.
+}
+
+
+PREFIX sioc: <http://rdfs.org/sioc/ns#>
+SELECT * WHERE {
+?post a sioc:Post; 
+sioc:content ?comment.
+OPTIONAL{?post sioc:has_reply ?answer.}
+OPTIONAL{?answer sioc:content ?response.}
+}
+
+ 
+PREFIX sioc: <http://rdfs.org/sioc/ns#>  SELECT ?container ?totalna ?yesna ?mixedna ?nona  WHERE {  ?container lodep:num_items_total_na ?totalna. OPTIONAL{?container lodep:num_items_yes_na ?yesna; lodep:num_items_mixed_na ?mixedna; lodep:num_items_no_na ?nona.}} 
+
+# clear sparql virtuoso
+SPARQL
+clear graph <http://lodepart/graph>
+
+SPARQL
+clear graph <http://lodepart/graph/eurovoc>
+
+
+# countries
+PREFIX schema: <http://schema.org/>
+
+select count(?s) where {
+
+?s a schema:Country.
+}
+
+# users
+
+PREFIX sioc: <http://rdfs.org/sioc/ns#>
+PREFIX schema: <http://schema.org/>
+
+SELECT * WHERE {
+ ?user a sioc:UserAccount;
+       lodep:nationality ?nationality;
+       sioc:avatar ?avatar.
+}
+
+
+# acts
+PREFIX sioc: <http://rdfs.org/sioc/ns#>
+SELECT DISTINCT *  WHERE {
+?act a sioc:Forum;
+     sioc:id ?id; 
+     lodep:title ?title;
+	 sioc:has_space ?space.
+OPTIONAL{?act lodep:created_at ?date}	 
+}
+
+# replace string in files, -i means self update
+sed -i 's/type_proc/doc_code/g' */*.html
+

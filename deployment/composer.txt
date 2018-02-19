@@ -1,0 +1,8 @@
+# update composer.lock w.r.t composer.json
+composer update
+
+# install packages
+composer install
+
+# clear cache ...
+composer dumpautoload

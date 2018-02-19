@@ -1,0 +1,86 @@
+/**
+ * Copyright 2015 European Commission
+ *
+ * Licensed under the EUPL, Version 1.1 or – as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ *     https://joinup.ec.europa.eu/software/page/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and limitations under the Licence.
+ */
+
+.leos-article {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.leos-article-content {
+    display: table-cell;
+    border: solid 1px transparent;
+}
+
+.leos-article-content-active {
+    background-color: #FFFAFF;
+    border: solid 1px #ADBDCE;
+}
+
+.leos-article-actions {
+    display: table-cell;
+    width: 20px;
+    vertical-align: top;
+    visibility: hidden;
+    border-top: solid 1px #ADBDCE;
+    border-right: solid 1px #ADBDCE;
+    border-bottom: solid 1px #ADBDCE;
+    text-align: center;
+}
+
+.leos-article-actions * {
+    padding-top: 5px;
+    cursor: pointer;
+}
+
+.leos-article-actions-active {
+    visibility: visible;
+}
+
+.leos-preamble {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.leos-preamble-content {
+    display: table-cell;
+    border: solid 1px transparent;
+    padding-right: 5px;url
+}
+
+.leos-preamble-content-active {
+    background-color: #FFFAFF;
+    border: solid 1px #ADBDCE;
+}
+
+.leos-preamble-actions {
+    display: table-cell;
+    width: 20px;
+    vertical-align: top;
+    visibility: hidden;
+    border-top: solid 1px #ADBDCE;
+    border-right: solid 1px #ADBDCE;
+    border-bottom: solid 1px #ADBDCE;
+    text-align: center;
+}
+
+.leos-preamble-actions * {
+    padding-top: 5px;
+    cursor: pointer;
+}
+
+.leos-preamble-actions-active {
+    visibility: visible;
+}

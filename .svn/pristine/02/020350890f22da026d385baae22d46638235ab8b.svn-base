@@ -1,0 +1,500 @@
+<?php
+
+namespace App\Documents;
+
+use Illuminate\Support\Facades\Auth;
+use DOMDocument;
+use App\Concepts\Act;
+use App\Concepts\Paragraph;
+use App\Concepts\Post;
+use SPARQL;
+
+/* * *
+ * @author Duy Dinh
+ * @date 20/10/2015
+ * This class aims to load and process a HTML document
+ */
+
+class HTMLDocument extends ActDocument {
+
+    protected $document;
+
+    public function __construct($doc) {
+        parent::__construct();
+
+        $this->document = $doc; // a dom document
+    }
+
+    /**
+     * Get title of the formex document
+     * @param type $doc
+     * @return string
+     */
+    public function extractMetadata() {
+        $e = $this->document->getElementByID('act_title');
+        if ($e) {
+            //return \App\Utils\StringProcessing::normalizeTitle($title->getAttribute('value'));
+            $title = preg_replace('!\s+!', ' ', strip_tags($e->textContent));
+            $docid = $e->getAttribute('docid');
+            $doc_code = $e->getAttribute('doc_code');
+            $eli_lang_code = $e->getAttribute('eli_lang_code');
+            $year = $e->getAttribute('year');
+            $num = $e->getAttribute('num');
+
+            return [$title, $docid, $doc_code, $eli_lang_code, $year, $num];
+        } else {
+            return '';
+        }
+    }
+
+    /**
+     * Get year of the formex document
+     * @return string
+     */
+    public function getYear() {
+        $elements = $this->document->getElementsByTagName('input');
+        foreach ($elements as $e) {
+
+            if (strcmp($e->getAttribute('id'), 'year_act_act_title') == 0) {
+                return $e->getAttribute('value');
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Get act ID  of the formex document
+     * @return string act ID
+     */
+    public function getActID() {
+        $elements = $this->document->getElementsByTagName('input');
+        foreach ($elements as $e) {
+
+            if (strcmp($e->getAttribute('id'), 'act_id_act_title') == 0) {
+                return $e->getAttribute('value');
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Get num of the formex document
+     * @return string num doc
+     */
+    public function getNumDoc() {
+        $elements = $this->document->getElementsByTagName('input');
+        foreach ($elements as $e) {
+
+            if (strcmp($e->getAttribute('id'), 'num_act_act_title') == 0) {
+                return $e->getAttribute('value');
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Get doc type of the formex document
+     * @return string doc type
+     */
+    public function getDocType() {
+        $elements = $this->document->getElementsByTagName('input');
+        foreach ($elements as $e) {
+
+            if (strcmp($e->getAttribute('id'), 'type_doc_act_title') == 0) {
+                return $e->getAttribute('value');
+            }
+        }
+        return '';
+    }
+
+    /**
+     * Get ELI lang code of the formex document
+     * @return string eli lang code
+     */
+    public function getELILangCode() {
+        $elements = $this->document->getElementsByTagName('input');
+        foreach ($elements as $e) {
+
+            if (strcmp($e->getAttribute('id'), 'eli_language_code_act_title') == 0) {
+                return $e->getAttribute('value');
+            }
+        }
+        return '';
+    }
+
+    /*     * ******************************** DEPRECATED *********************** */
+
+    /**
+     * Print title
+     * @param type $doc
+     */
+    public function processTitle($doc, $filename, $actID, $langCode, $version) {
+        $title = $doc->getElementsByTagName('title')[0];
+        $previousCommentsAct = self::retrievePreviousComments(Act::buildActURI($actID, $langCode, $version), 5, true, '');
+        if (Auth::check()) {
+// title of the act
+            echo '<h3>' . $title->nodeValue . '</h3>' .
+            '<div class = "row"> ' .
+            '  <div class = "comment-toolbar">';
+            echo self::checkPreviousPosts($previousCommentsAct, 'Previous comments of this act', 'previous-user-comments-of-act');
+            echo
+            '    <span class = "thumb thumb-up" title = "Writes a positive comment for this act" onclick="toggleElementByIDNote(\'user-comment-form-act\', \'user_note_act\', \'yes\');"></span>' .
+            '    <span class = "thumb thumb-neutral" title = "Write a neutral comment for this act" onclick="toggleElementByIDNote(\'user-comment-form-act\', \'user_note_act\', \'mixed\');"></span>' .
+            '    <span class = "thumb thumb-down" title = "Write a negative comment for this act" onclick="toggleElementByIDNote(\'user-comment-form-act\', \'user_note_act\', \'no\');"></span>' .
+            '  </div>' .
+            '</div>';
+// div for previous comments
+
+            echo '<div class="container" id="previous-user-comments-of-act">' .
+            $previousCommentsAct .
+            '<a href="">Previous comments</a>' .
+            '</div>';
+
+            echo '<form id = "user-comment-form-act" method = "POST" action = "/add-comment-to-current-act">' .
+            '<div class="container">' .
+//
+            '  <div class="row">' .
+            '    <div class="col-md-9">' .
+            '      <textarea type = "text" id = "comment_text_box" name="comment_text_box"></textarea>' .
+            '    </div>' .
+            '  </div>' .
+//
+            '  <div class="row">' .
+//
+            '    <div class="col-md-2">' .
+            '      <input class="btn btn-primary" type="submit" value = "Send comment">' .
+            '    </div>' .
+            '  </div>' .
+//
+            '</div>';
+            echo '<input type="hidden" id="filename" name="filename" value="' . $filename . '">' .
+            '<input type="hidden" id="act_id" name="act_id" value="' . $actID . '">' .
+            '<input type="hidden" id="user_note_act" name="user_note_act" value="mixed">';
+
+            echo csrf_field();
+            echo '</form>';
+        }
+    }
+
+    public function processPreamble($doc) {
+        $preamble = $doc->getElementsByTagName('preamble')[0];
+//echo '<section><article>';
+        echo '<span  id="preambule" class="ellipsis">' . $preamble->nodeValue . '</span><span onclick="togglePreambule();" id="read_more"><i class="glyphicon glyphicon-triangle-right"></i>Read more &raquo;</span><span class="btn btn-info" onclick="togglePreambule();" id="read_less">Show less</span>';
+//echo '</article></section>';
+    }
+
+    /*     * *
+     * Process articles
+     */
+
+    public function processArticles($doc, $docID, $actID) {
+// extract articles
+        echo '<section>';
+        $articles = $doc->getElementsByTagName('article');
+        foreach ($articles as $article) {
+            $articleID = '';
+            if ($article->hasAttribute('id_article')) {
+                $articleID = $article->getAttribute('id_article');
+                echo '<article id="' . $articleID . '">';
+            } else {
+                echo '<article>';
+            }
+
+            $n = $article->childNodes->length;
+            $articleText = $article->childNodes[1]->nodeValue;
+            self::displayArticleAndComments($docID, $actID, $articleID, $articleText);
+            for ($i = 2; $i < $n; $i++) {
+                if (strlen(trim($article->childNodes[$i]->nodeValue)) > 0) {
+                    self::processParagraphInArticle($article, $i, $docID, $actID, $articleID);
+                }
+            }
+            echo '</article><br>';
+        }
+        echo '</section>';
+    }
+
+     
+    /*     * *
+     * Process each paragraph in each article
+     */
+
+    public function processParagraphInArticle($article, $i, $docID, $ACTID, $ARTID) {
+        if ((strcmp($article->childNodes[$i]->nodeName, "paragraph") == 0) && ($article->childNodes[$i]->hasAttribute('IDENTIFIER'))) { {
+                $PID = $article->childNodes[$i]->getAttribute('id_paragraph');
+                $PURI = Paragraph::buildParagraphURI($ACTID, $ARTID, $PID);
+                $jsPID = str_replace('.', '-', $PID); // javascript PID
+
+                if (Auth::check()) {
+                    $previousCommentsParagraph = self::retrievePreviousComments($PURI, 5, true, '');
+
+                    echo '<div id="' . $jsPID . '">' . $article->childNodes[$i]->nodeValue . '</div>' .
+                    '<div class = "row"> ' .
+                    '  <div class = "comment-toolbar">';
+
+                    echo self::checkPreviousPosts($previousCommentsParagraph, 'Previous comments of this paragraph', 'previous-user-comments-of-paragraph-' . $jsPID);
+                    echo
+                    '    <span class = "thumb thumb-up" title = "Writes a positive comment for this paragraph" onclick="toggleElementByIDNote(\'user-comment-form-of-paragraph-' . $jsPID . '\', \'user-note-of-paragraph-' . $jsPID . '\', \'yes\');"></span>' .
+                    '    <span class = "thumb thumb-neutral" title = "Write a neutral comment for this paragraph" onclick="toggleElementByIDNote(\'user-comment-form-of-paragraph-' . $jsPID . '\', \'user-note-of-paragraph-' . $jsPID . '\', \'mixed\');"></span>' .
+                    '    <span class = "thumb thumb-down" title = "Write a negative comment for this paragraph" onclick="toggleElementByIDNote(\'user-comment-form-of-paragraph-' . $jsPID . '\', \'user-note-of-paragraph-' . $jsPID . '\', \'no\');"></span>' .
+                    '  </div>' .
+                    '</div>' .
+                    //
+                    '<div id = "previous-user-comments-of-paragraph-' . $jsPID . '" style = "display:none">';
+                    echo $previousCommentsParagraph .
+                    ' </div>';
+
+                    echo
+                    '<form id = "user-comment-form-of-paragraph-' . $jsPID . '" method = "POST" action = "/add-comment-to-current-paragraph" style="display:none">' .
+                    '<div ng-show = "user-comment-form">' .
+                    '<textarea type = "text" id = "comment_text_box" name = "comment_text_box" style = "height:70px;width:100%;"></textarea>' .
+                    '<input type = "hidden" id = "doc_id" name = "doc_id" value = "' . $docID . '">' .
+                    '<input type = "hidden" id = "act_id" name = "act_id" value = "' . $ACTID . '">' .
+                    '<input type = "hidden" id = "article_id" name = "article_id" value = "' . $ARTID . '">' .
+                    '<input type = "hidden" id = "paragraph_id" name = "paragraph_id" value = "' . $PID . '">' .
+                    '<input type="hidden" id="user-note-of-paragraph-' . $jsPID . '" name="user_note_paragraph" value="mixed">' .
+                    '<input class = "btn btn-primary" type = "submit" value = "Send" style = "margin:5px">' .
+                    '</div>';
+
+                    echo csrf_field();
+                    echo '</form>';
+                } else {
+                    echo '<p id = "' . $jsPID . '">' . $article->childNodes[$i]->nodeValue
+                    . '</p>';
+                }
+            }
+        }
+    }
+
+    /*     * *
+     * Show button to display previous answers of a post
+     * @param $repliedPosts
+     * @param $elementID an element to be toggled (shown/hidden)
+     * @param $alt alternate
+     * @param $title a title
+     */
+
+    function checkPreviousPosts($repliedPosts, $title, $elementID) {
+        if ($repliedPosts != '') {
+            return sprintf('    <span class="thumb previous-comments" title="%s" onclick="toggleElementByID(\'%s\');"></span>&nbsp;&nbsp;', $title, $elementID);
+        } else {
+            return '';
+        }
+    }
+
+    /*     * *
+     * Retrieve previous comments for this container
+     * @param $container a container can be an act, an article or a paragraph
+     */
+
+    public function retrievePreviousComments($container, $limit, $all_lang, $lang_comment) {
+        if ($all_lang || empty($lang_comment)) {
+            $lang_comment_line = '';
+        } else {
+            $lang_comment_line = 'FILTER(LANG(?comment) = "' . $lang_comment . '").';
+        }
+
+        // this query is used for selecting the comments or posts for a container
+
+        $query = 'PREFIX sioc: <http://rdfs.org/sioc/ns#> ' .
+                ' PREFIX foaf: <http://xmlns.com/foaf/0.1/> ' .
+                ' SELECT * WHERE {' .
+                '      ?post  sioc:has_container <' . $container . '>;
+                              sioc:content ?comment; ' .
+                $lang_comment_line .
+                '             sioc:has_creator ?user;' .
+                '             sioc:note ?note;' .
+                '             sioc:created_at ?created_at.' .
+                '       ?user foaf:name ?firstName;' .
+                '             foaf:familyName ?lastName;' .
+                '             sioc:avatar ?avatar.' .
+                '} ORDER BY DESC(?created_at) LIMIT ' . $limit;
+
+//file_put_contents('retrieve-previous-comments.sparql', $query);
+        $comments = SPARQL::runSPARQLQuery($query);
+
+        $jsnComments = json_decode($comments);
+//        print_r($jsnComments->results->bindings);
+        $results = '';
+        $delimeters = array('/', ':', '.');
+        if (!empty($jsnComments->results)) {
+            foreach ($jsnComments->results->bindings as $comment) {
+
+                $results .= '<div class = "row">';
+                if (!empty($comment->avatar)) {
+                    $results .= '<div class = "col-md-3"><img alt="avatar" src="' . $comment->avatar->value . '"> <span class="user-info">' . $comment->firstName->value . ' ' . $comment->lastName->value . '</span> <span class="post-timestamp">' . date_create($comment->created_at->value)->format('Y/m/d H:i') . '</span></div>';
+                }
+
+                $s1 = str_replace(env('SITE_NAME'), '', $comment->post->value);
+                $POSTID = str_replace($delimeters, '_', $s1); // a valid Javascript post ID
+                $repliedPosts = Post::getRepliedPosts($comment->post->value);
+
+                $results .=
+                        '<div class = "col-md-8">' .
+                        ' <span name="previous_comment_text">' .
+                        $comment->comment->value . '</span>' .
+                        // answers to this comment area
+                        '<div id="reply-to-comment-area' . $POSTID . '" style="display:none">' .
+                        $repliedPosts .
+                        '</div>' .
+                        // end answers to this comment area
+                        '<form  method = "POST" action = "/reply-to-previous-comment">' .
+                        ' <div id ="reply_previous_comment' . $POSTID . '" style="display:none;">' .
+                        '   <textarea type = "text"  name = "reply_previous_comment_text_box" class="reply_previous_comment_text_box"></textarea><br>' .
+                        '   <input type="hidden" name="replied-post-URI" value="' . $comment->post->value . '">' .
+                        '   <input type="hidden" name="container_id" value="' . Post::extractContainerIDfromPostURI($comment->post->value) . '">' .
+                        '   <input type="hidden" id="user_note_reply_post' . $POSTID . '" name="user_note_reply_post" value="mixed"> ' .
+                        '   <input type="submit" class="btn btn-primary" value="Submit">' .
+                        ' </div>' .
+                        '<div class = "row">' .
+                        '  <div class = "comment-toolbar">';
+
+                //
+
+                $results .= self::checkPreviousPosts($repliedPosts, 'Answers to this comment', 'reply-to-comment-area' . $POSTID);
+
+                $results .=
+                        '    <span class = "thumb thumb-up" title = "Writes a positive anwswer to this comment" onclick="toggleElementByIDNote(\'reply_previous_comment' . $POSTID . '\', \'user_note_reply_post' . $POSTID . '\', \'yes\');"></span>' .
+                        '    <span class = "thumb thumb-neutral" title = "Write a neutral answer to this comment" onclick="toggleElementByIDNote(\'reply_previous_comment' . $POSTID . '\', \'user_note_reply_post' . $POSTID . '\', \'mixed\');"></span>' .
+                        '    <span class = "thumb thumb-down" title = "Write a negative answer to this comment" onclick="toggleElementByIDNote(\'reply_previous_comment' . $POSTID . '\', \'user_note_reply_post' . $POSTID . '\', \'no\');"></span>' .
+                        '  </div>' .
+                        '</div>' .
+                        csrf_field() .
+                        '</form>' .
+                        '</div>' . // end 
+                        '</div>' . // end div row
+                        '<hr>';
+            }
+        }
+
+        $results .= self::give_average_note_container($jsnComments);
+        return $results; // end container
+    }
+
+    /*     * *
+     * Computes the average note for a container (e.g., act, article or paragraph)
+     * @param $comments a list of comments in JSON format
+     */
+
+    function give_average_note_container($jsnComments) {
+        $ok = 0;
+        $no = 0;
+        $any = 0;
+        $Average_ok = $Average_no = $Average_any = 0;
+        if (!empty($jsnComments->results)) {
+            foreach ($jsnComments->results->bindings as $comment) {
+                if ($comment->note->value == "yes") {
+                    $ok++;
+                } else if ($comment->note->value == "no") {
+                    $no++;
+                } else if ($comment->note->value == "mixed") {
+                    $any++;
+                }
+            }
+        }
+        $sum = $ok + $no + $any;
+        if ($sum != 0) {
+            $Average_ok = 100 * $ok / $sum;
+            $Average_no = 100 * $no / $sum;
+            $Average_any = 100 * $any / $sum;
+        }
+
+        return sprintf("%.2f, %.2f, %.2f<br>", $Average_ok, $Average_no, $Average_any);
+    }
+
+    /*     * ************************END DEPRECATED ************************ */
+
+    /*     * *
+     * Retrieve metadata for this COM from the CELLAR
+     */
+
+    public function retrieveMetadata($id_com, $lang_themes) {
+        $query = 'DEFINE input:inference "cdm_rule_set"
+                prefix cdm: <http://publications.europa.eu/ontology/cdm#> 
+                prefix skos: <http://www.w3.org/2004/02/skos/core#>
+                prefix lang:<http://publications.europa.eu/resource/authority/language/>
+                select distinct ?articles ?id_celex ?num_celex ?procedure_type ?procedure_num ?procedure_year ?thems ?label ?dossier ?doc_type ?date_adopted ?proc_code ?proc_ref
+                where {
+                ?articles cdm:work_id_document "comnat:' . $id_com . '"^^<http://www.w3.org/2001/XMLSchema#string>.
+                ?articles cdm:id_celex ?id_celex.
+                ?articles cdm:number_natural_celex ?num_celex.
+                ?articles ^owl:sameAs/owl:sameAs/^cdm:dossier_contains_work ?dossier.
+                ?dossier cdm:procedure_code_interinstitutional_has_type_concept_type_procedure_code_interinstitutional ?procedure_type.
+                ?dossier cdm:procedure_code_interinstitutional_number_procedure ?procedure_num.
+                ?dossier cdm:procedure_code_interinstitutional_year_procedure ?procedure_year.
+                ?articles cdm:is_about ?thems.
+                ?thems skos:prefLabel ?label.
+                FILTER(LANG(?label) = "' . $lang_themes . '").
+                ?articles cdm:resource_legal_type ?doc_type.
+                ?dossier cdm:date ?date_adopted.
+                ?dossier cdm:procedure_code_interinstitutional_reference_procedure ?proc_code.
+                ?dossier cdm:procedure_code_interinstitutional_reference_procedure ?proc_ref.
+            }';
+
+        $sparql_results = \App\SPARQL\PHPSPARQL::runSPARQLQuery_XML($this->CELLAR_SPARQL_ENDPOINT, $query);
+//file_put_contents('results_sparql.xml', html_entity_decode(strip_tags($sparql_results)));
+        return $this->select_element_from_xml($sparql_results);
+    }
+
+    /**
+     * return html format of sparql results ...
+     */
+    public static function select_element_from_xml($sparql_results) {
+        if (empty($sparql_results)) {
+            return '';
+        }
+        $xml = "<?xml version='1.0' encoding='UTF-8'?>";
+        $xml.=html_entity_decode(strip_tags($sparql_results)); //It transforms the entities into the real typographical characters (used to have angle brackets '<' '>'  for xml
+        $dom = new DOMDocument();
+        $dom->loadXML($xml);
+        $articles = $dom->getElementsByTagName('binding');
+        foreach ($articles as $article) {
+            $uri_list[] = $article->nodeValue;
+        } //echo $article->nodeValue.' ';
+
+        $label = [];
+        $i = 0;
+        $acte = $uri_list[$i++];
+        $id_celex = $uri_list[$i++];
+        $num_celex = $uri_list[$i++];
+        $procedure_type = $uri_list[$i++];
+        $procedure_num = $uri_list[$i++];
+        $procedure_year = $uri_list[$i++];
+        $themes[] = $uri_list[$i++];
+        $label[] = $uri_list[$i++];
+        $doc_type = $uri_list[$i++];
+        $dossier = $uri_list[$i++];
+        $date_adopted = $uri_list[$i++];
+        $proc_code = $uri_list[$i++];
+        $proc_ref = $uri_list[$i++];
+
+        while ($i < count($uri_list)) {
+            $i += 6;
+            if (!in_array($uri_list[$i], $themes)) {
+                $themes[] = $uri_list[$i];
+            }
+            $i++;
+            if (!in_array($uri_list[$i], $label)) {
+                $label[] = $uri_list[$i];
+            }
+            $i += 6;
+        }
+        $themes = '';
+        foreach ($label as $lab) {
+            $themes.=$lab . ', ';
+        }
+
+        $meta_data_html = '<p> Celex identifier: ' . $id_celex . '</p>
+            <p> Celex number: ' . $num_celex . '</p>
+            <p> Type of procedure: ' . $procedure_type . '</p>
+            <p> Number of procedure: ' . $procedure_num . '</p>
+            <p> Year of procedure: ' . $procedure_year . '</p>
+            <p> Type of document: ' . $doc_type . '</p>
+            <p> Date of adoption: ' . $date_adopted . '</p>
+            <p> Code of procedure: ' . $proc_code . '</p>
+            <p> Reference of procedure: ' . $proc_ref . '</p>
+            <p> Themes: ' . $themes . '</p>
+
+            ';
+        return $meta_data_html;
+    }
+}

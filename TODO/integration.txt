@@ -1,0 +1,20 @@
+To fix the problems with AngularJS on IE
+
+view-source:http://aminer.org/
+
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"  ng-app="aminerWebApp"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"  ng-app="aminerWebApp"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"  ng-app="aminerWebApp"> <![endif]-->
+<!--[if gt IE 8]><!-->
+
+
+Copy 
+
++ storage 
++ vendor 
++ ontologies (eurovoc,lodep)
+
+to the release src folder from branches

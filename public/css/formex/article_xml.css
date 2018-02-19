@@ -1,0 +1,209 @@
+/**
+ * Copyright 2015 European Commission
+ *
+ * Licensed under the EUPL, Version 1.1 or � as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ *     https://joinup.ec.europa.eu/software/page/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and limitations under the Licence.
+ */
+/*-----------------------------------------------------------------------------
+    AKN basic styles
+-----------------------------------------------------------------------------*/
+p[contains='no_np']   {
+    display: block;    
+    padding-top: 6pt;
+    padding-right: 5pt;
+    padding-bottom: 6pt;
+    margin: 0;
+}
+ 
+p[contains='p'] {
+    display: block;    
+    padding-top: 4pt;
+    padding-right: 5pt;
+    padding-bottom: 6pt;
+    margin: 0;
+}
+
+div[contains='article']{
+    display: block;    
+    padding-top: 6pt;
+    padding-right: 10px;
+    padding-bottom: 6pt;
+    margin: 0;
+}
+
+div[contains='subdiv_enacting_terms']{
+    padding-top: 20pt;
+}
+
+span[contains='no_paragraph']{
+    padding-right: 4pt;
+}
+
+
+/*-----------------------------------------------------------------------------
+        AKN article styles
+-----------------------------------------------------------------------------*/
+div[contains='article']  {
+    display: block;
+}
+
+div[contains='article'] > div[contains='title']  {
+    display: block;
+    font-style: italic;
+    text-align: center;
+    padding-top: 18pt;
+    padding-bottom: 6pt;
+}
+
+div[contains='article'] > div[contains='heading']  { 
+    display: block;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 6pt;
+    padding-bottom: 6pt;
+}
+
+div[contains='article'] > div[contains='alinea']  {
+    display: block;
+}
+
+/*-----------------------------------------------------------------------------
+        AKN alinea styles
+-----------------------------------------------------------------------------*/
+div[contains='article'] div[contains='alinea']  {
+    display: block;
+}
+
+div[contains='article'] div[contains='alinea'] > p[contains='p']  {
+    display: block;
+}
+
+/*-----------------------------------------------------------------------------
+        AKN paragraph styles
+-----------------------------------------------------------------------------*/
+div[contains='article'] div[contains='paragraph']  {
+    position: relative;
+    padding-left:2em;
+    width: 100%;
+    display: block;
+}
+div[contains='article'] div[contains='paragraph'] > div[contains='no_paragraph']  {
+    padding-top: 8px;/*put on the same line as the content*/
+    margin-left:-2em;
+    float:left;
+}
+
+div[contains='article'] div[contains='subparagraph']  { 
+    clear:both;
+}
+div[contains='article'] div[contains='paragraph'] > div[contains='alinea']  {
+    clear:both;
+}
+
+/*-----------------------------------------------------------------------------
+        AKN list/point styles
+-----------------------------------------------------------------------------**/
+
+div[contains='article'] div[contains='paragraph'] div[contains='alinea'] div[contains='list']  { // initialement article list
+                                                                                                 display: table;
+                                                                                                 table-layout: fixed;
+                                                                                                 width: 100%;
+}
+
+div[contains='article'] div[contains='alinea'] div[contains='list']  { 
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+div[contains='article'] div[contains='alinea']  {
+    display: table-row;
+}
+
+div[contains='article'] div[contains='item']  {
+    position: relative;
+    padding-left:2em;
+    display: block;
+}
+div[contains='article'] div[contains='item'] > div[contains='np'] span[contains='no_np']  {
+    padding-top: 8px;/*put on the same line as the content*/
+    width: 2em;
+    margin-left:-2em;
+    position: absolute;
+    float:left;
+}
+
+div[contains='article'] div[contains='item']  div[contains='np'] > p[contains='p']{
+    clear:both;
+}
+
+div[contains='article'] div[contains='indent']  { 
+    position: relative;
+    padding-left:2em;
+    display: block;
+}
+
+div[contains='article'] div[contains='indent'] > div[contains='num']  {  
+    padding-top: 8px;/*put on the same line as the content*/
+    width: 2em;
+    margin-left:-2em;
+    position: absolute;
+    float:left;
+}
+
+div[contains='article'] div[contains='indent'] > div[contains='content']  {  
+    clear:both;
+}
+
+/*-----------------------------------------------------------------------------
+    AKN table styles // we dont know...
+-----------------------------------------------------------------------------*/
+div[contains='article'] div[contains='table']  {
+    border: 1px solid black;
+    background-color: silver;
+    border-spacing: 2px;
+    empty-cells: show;
+}
+
+div[contains='article'] div[contains='tr']  {
+    background-color: white;
+}
+
+div[contains='article'] div[contains='td']  {
+    /* extra spacing for improved readability */
+    padding: 5px;
+}
+/*
+act note[data-tooltip]']  {
+        width: 100%;
+}
+act note[data-tooltip]:after {
+        content: none;
+        display: block;
+        vertical-align: bottom;
+        height: 20px;
+        bottom: 0;
+        width: 100%;
+}*/
+
+div[contains='act'] div[contains='note']:after {
+    content: "";
+    height: 100%;
+    float: left;
+    width: 0;
+    margin-top: -32767px;
+}
+
+div[contains='paragraph']{
+    padding-top: 10pt;
+}
+
+
+

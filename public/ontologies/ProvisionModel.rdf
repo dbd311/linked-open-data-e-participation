@@ -1,0 +1,1242 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY dcterms "http://purl.org/dc/terms/" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY prv "http://lod-dk/ontologies/ProvisionModel#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://lod-dk/ontologies/ProvisionModel#"
+     xml:base="http://lod-dk/ontologies/ProvisionModel"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:prv="http://lod-dk/ontologies/ProvisionModel#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:dcterms="http://purl.org/dc/terms/">
+    <owl:Ontology rdf:about="http://lod-dk/ontologies/ProvisionModel#">
+        <dc:language>en</dc:language>
+        <dc:date>2016-04-28</dc:date>
+        <owl:versionInfo>Revision: 1.01</owl:versionInfo>
+        <dc:creator>FRANCESCONI Enrico and BATOUCHE Brahim </dc:creator>
+        <dcterms:title xml:lang="en">Provision Model (PRV) Core Ontology Namespace</dcterms:title>
+        <rdfs:comment xml:lang="en">Provision Model (PRV) Core Ontology is ...</rdfs:comment>
+        <dc:description rdf:resource="http://lod-dk:8000/ontologies/prv_ontology.jpg"/>
+        <rdfs:seeAlso rdf:resource="http://rdfs.org/sioc/spec"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#created_at -->
+
+    <owl:AnnotationProperty rdf:about="&prv;created_at">
+        <rdfs:label xml:lang="en"> old text </rdfs:label>
+        <rdfs:comment xml:lang="en"> old text of ammendments</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;RuleOnRule"/>
+        <rdfs:domain rdf:resource="&prv;rule_on_rule"/>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#has_creator -->
+
+    <owl:AnnotationProperty rdf:about="&prv;has_creator">
+        <rdfs:label xml:lang="en"> old text </rdfs:label>
+        <rdfs:comment xml:lang="en"> old text of ammendments</rdfs:comment>
+    </owl:AnnotationProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasDefiniendum -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasDefiniendum">
+        <rdfs:label xml:lang="en">definiendum of a term definition provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the defined term in a TermDefinition provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;TermDefinition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasDefiniens -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasDefiniens">
+        <rdfs:label xml:lang="en">definiens of a term definition provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the definition of a defined term in a TermDefinition provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;TermDefinition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasDutyAction -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasDutyAction">
+        <rdfs:label xml:lang="en">action of duty provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the action of a duty provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Duty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasDutyBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasDutyBearer">
+        <rdfs:label xml:lang="en">bearer of duty provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of a duty provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Duty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasDutyCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasDutyCounterpart">
+        <rdfs:label xml:lang="en">counterpart of duty provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of a duty provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Duty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasDutyObject -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasDutyObject">
+        <rdfs:label xml:lang="en">object of duty provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the object of a duty provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Duty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasEstablishmentAddressee -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasEstablishmentAddressee">
+        <rdfs:label xml:lang="en">addressee of establishment provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the addressee of an establishment provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Establishment"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasExplicitDutyBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasExplicitDutyBearer">
+        <rdfs:label xml:lang="en">bearer of an explicit duty</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of an explicit duty provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ExplicitDuty"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasDutyBearer"/>
+        <owl:equivalentProperty rdf:resource="&prv;hasImplicitRightCounterpart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasExplicitDutyCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasExplicitDutyCounterpart">
+        <rdfs:label xml:lang="en">counterpart of an explicit duty</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of an explicit duty provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ExplicitDuty"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasDutyCounterpart"/>
+        <owl:equivalentProperty rdf:resource="&prv;hasImplicitRightBearer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasExplicitLiabilityBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasExplicitLiabilityBearer">
+        <rdfs:label xml:lang="en">bearer of an explicit liability</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of an explicit liability provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ExplicitLiability"/>
+        <owl:equivalentProperty rdf:resource="&prv;hasImplicitPowerCounterpart"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasLiabilityBearer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasExplicitLiabilityCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasExplicitLiabilityCounterpart">
+        <rdfs:label xml:lang="en">explicit counterpart of a liability</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of an explicit liability provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ExplicitLiability"/>
+        <owl:equivalentProperty rdf:resource="&prv;hasImplicitPowerBearer"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasLiabilityCounterpart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasExplicitPowerBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasExplicitPowerBearer">
+        <rdfs:label xml:lang="en">bearer of an explicit power</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of an explicit power provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ExplicitPower"/>
+        <owl:equivalentProperty rdf:resource="&prv;hasImplicitLiabilityCounterpart"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasPowerBearer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasExplicitPowerCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasExplicitPowerCounterpart">
+        <rdfs:label xml:lang="en">counterpart of an explicit power</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of an explicit power provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ExplicitPower"/>
+        <owl:equivalentProperty rdf:resource="&prv;hasImplicitLiabilityBearer"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasPowerCounterpart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasExplicitRightBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasExplicitRightBearer">
+        <rdfs:label xml:lang="en">bearer of an explicit right</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of an explicit right provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ExplicitRight"/>
+        <owl:equivalentProperty rdf:resource="&prv;hasImplicitDutyCounterpart"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasRightBearer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasExplicitRightCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasExplicitRightCounterpart">
+        <rdfs:label xml:lang="en">bearer of an explicit liability</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of an explicit right provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ExplicitRight"/>
+        <owl:equivalentProperty rdf:resource="&prv;hasImplicitDutyBearer"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasRightCounterpart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasImplicitDutyBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasImplicitDutyBearer">
+        <rdfs:label xml:lang="en">bearer of an implicit duty</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of an implicit duty provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ImplicitDuty"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasDutyBearer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasImplicitDutyCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasImplicitDutyCounterpart">
+        <rdfs:label xml:lang="en">counterpart of an implicit duty</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of an implicit duty provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ImplicitDuty"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasDutyCounterpart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasImplicitLiabilityBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasImplicitLiabilityBearer">
+        <rdfs:label xml:lang="en">bearer of an implicit liability</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of an implicit liability provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ImplicitLiability"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasLiabilityBearer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasImplicitLiabilityCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasImplicitLiabilityCounterpart">
+        <rdfs:label xml:lang="en">counterpart of an implicit liability</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of an implicit liability provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ImplicitLiability"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasLiabilityCounterpart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasImplicitPowerBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasImplicitPowerBearer">
+        <rdfs:label xml:lang="en">bearer of an implicit power</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of an implicit power provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ImplicitPower"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasPowerBearer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasImplicitPowerCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasImplicitPowerCounterpart">
+        <rdfs:label xml:lang="en">counterpart of an implicit power</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of an implicit power provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ImplicitPower"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasPowerCounterpart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasImplicitRightBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasImplicitRightBearer">
+        <rdfs:label xml:lang="en">bearer of an implicit right</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of an implicit right provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ImplicitRight"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasRightBearer"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasImplicitRightCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasImplicitRightCounterpart">
+        <rdfs:label xml:lang="en">counterpart of an implicit right</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of an implicit right provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ImplicitRight"/>
+        <rdfs:subPropertyOf rdf:resource="&prv;hasRightCounterpart"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasLiabilityActivity -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasLiabilityActivity">
+        <rdfs:label xml:lang="en">activity of liability provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the activity associated to the liability provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Liability"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasLiabilityBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasLiabilityBearer">
+        <rdfs:label xml:lang="en">bearer of liability provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of a liability provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Liability"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasLiabilityCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasLiabilityCounterpart">
+        <rdfs:label xml:lang="en">counterpart of liability provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of a liability provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Liability"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasLiabilityObject -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasLiabilityObject">
+        <rdfs:label xml:lang="en">object of liability provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the object of a liability provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Liability"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasOrganizationAddressee -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasOrganizationAddressee">
+        <rdfs:label xml:lang="en">addressee of organization provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the addressee of an organization provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Organization"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasPermissionAction -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasPermissionAction">
+        <rdfs:label xml:lang="en">action of permission provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the action of a permission provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Permission"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasPermissionBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasPermissionBearer">
+        <rdfs:label xml:lang="en">bearer of permission provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of a permission provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Permission"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasPermissionCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasPermissionCounterpart">
+        <rdfs:label xml:lang="en">counterpart of permission provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of a permission provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Permission"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasPermissionObject -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasPermissionObject">
+        <rdfs:label xml:lang="en">object of premission provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the object of a permission provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Permission"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasPowerActivity -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasPowerActivity">
+        <rdfs:label xml:lang="en">activity of power provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the activity associated to the power provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Power"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasPowerBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasPowerBearer">
+        <rdfs:label xml:lang="en">bearer of power provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of a power provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Power"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasPowerCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasPowerCounterpart">
+        <rdfs:label xml:lang="en">counterpart of power provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of a power provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Power"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasPowerObject -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasPowerObject">
+        <rdfs:label xml:lang="en">object of power provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the object of a power provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Power"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasProcedureAction -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasProcedureAction">
+        <rdfs:label xml:lang="en">action of procedure provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the action of a procedure provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Procedure"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasProcedureAddressee -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasProcedureAddressee">
+        <rdfs:label xml:lang="en">addressee of procedure provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the addressee of an procedure provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Procedure"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasProcedureCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasProcedureCounterpart">
+        <rdfs:label xml:lang="en">counterpart of procedure provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of a procedure provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Procedure"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasProcedureObject -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasProcedureObject">
+        <rdfs:label xml:lang="en">object of procedure provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the object of a procedure provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Procedure"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasProhibitionAction -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasProhibitionAction">
+        <rdfs:label xml:lang="en">action of prohibition provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the action of a prohibition provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Prohibition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasProhibitionBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasProhibitionBearer">
+        <rdfs:label xml:lang="en">bearer of prohibition provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of a prohibition provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Prohibition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasProhibitionCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasProhibitionCounterpart">
+        <rdfs:label xml:lang="en">counterpart of prohibition provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of a prohibition provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Prohibition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasProhibitionObject -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasProhibitionObject">
+        <rdfs:label xml:lang="en">object of prohibition provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the object of a prohibition provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Prohibition"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasRedressAction -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasRedressAction">
+        <rdfs:label xml:lang="en">action of redress provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the action of a redress provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Redress"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasRedressBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasRedressBearer">
+        <rdfs:label xml:lang="en">bearer of redress provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of a redress provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Redress"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasRedressCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasRedressCounterpart">
+        <rdfs:label xml:lang="en">counterpart of redress provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of a redress provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Redress"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasRedressEffect -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasRedressEffect">
+        <rdfs:label xml:lang="en">effect of redress provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the effect of a redress provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Redress"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasRightAction -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasRightAction">
+        <rdfs:label xml:lang="en">action of right provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the action of a right provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Right"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasRightBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasRightBearer">
+        <rdfs:label xml:lang="en">bearer of right provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of a right provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Right"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasRightCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasRightCounterpart">
+        <rdfs:label xml:lang="en">counterpart of right provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of a right provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Right"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasRightObject -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasRightObject">
+        <rdfs:label xml:lang="en">object of right provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the object of a right provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Right"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasStatusAddressee -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasStatusAddressee">
+        <rdfs:label xml:lang="en">addressee of status provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which indicates the addresse of a provision (status) giving powers or duties, so to adhere to a particular community</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Status"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasStatusObject -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasStatusObject">
+        <rdfs:label xml:lang="en">object of status provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the object of a status attribution provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Status"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasViolationAction -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasViolationAction">
+        <rdfs:label xml:lang="en">action of violation provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the action of a violation provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Violation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasViolationBearer -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasViolationBearer">
+        <rdfs:label xml:lang="en">bearer of violation provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the bearer of a violation provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Violation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasViolationCounterpart -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasViolationCounterpart">
+        <rdfs:label xml:lang="en">counterpart of violation provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the counterpart of an violation provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Violation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#hasViolationPenalty -->
+
+    <owl:ObjectProperty rdf:about="&prv;hasViolationPenalty">
+        <rdfs:label xml:lang="en">penalty of violation provision</rdfs:label>
+        <rdfs:comment xml:lang="en">provision attribute which expresses the penalty of a violation provision</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Violation"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#has_creator -->
+
+    <owl:ObjectProperty rdf:about="&prv;has_creator">
+        <rdfs:label xml:lang="en"> old text </rdfs:label>
+        <rdfs:comment xml:lang="en"> old text of ammendments</rdfs:comment>
+        <rdfs:range rdf:resource="&prv;Proponent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#begin_position -->
+
+    <owl:DatatypeProperty rdf:about="&prv;begin_position">
+        <rdfs:label xml:lang="en">begin positions </rdfs:label>
+        <rdfs:comment xml:lang="en">begin position of ammendments</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;ContentAmendment"/>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#created_at -->
+
+    <owl:DatatypeProperty rdf:about="&prv;created_at">
+        <rdfs:label xml:lang="en"> old text </rdfs:label>
+        <rdfs:comment xml:lang="en"> old text of ammendments</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;RuleOnRule"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#deleted_content -->
+
+    <owl:DatatypeProperty rdf:about="&prv;deleted_content">
+        <rdfs:label xml:lang="en">deleted_content</rdfs:label>
+        <rdfs:comment xml:lang="en"> deleted content of ammendments</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Deletion"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#end_position -->
+
+    <owl:DatatypeProperty rdf:about="&prv;end_position">
+        <rdfs:label xml:lang="en">end positions </rdfs:label>
+        <rdfs:comment xml:lang="en">end position of ammendments</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Deletion"/>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#new_content -->
+
+    <owl:DatatypeProperty rdf:about="&prv;new_content">
+        <rdfs:label xml:lang="en">new text </rdfs:label>
+        <rdfs:comment xml:lang="en">new text</rdfs:comment>
+        <rdfs:domain rdf:resource="&prv;Insertion"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Attribution -->
+
+    <owl:Class rdf:about="&prv;Attribution">
+        <rdfs:label xml:lang="en">attribution</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Constitutive"/>
+        <rdfs:comment xml:lang="en">class of provisions attributing roles and powers</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Constitutive -->
+
+    <owl:Class rdf:about="&prv;Constitutive">
+        <rdfs:subClassOf rdf:resource="&prv;Rule"/>
+        <rdfs:comment xml:lang="en">class of provisions which introduce or assign a juridical profiles
+to entities of a regulated reality</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#ContentAmendment -->
+
+    <owl:Class rdf:about="&prv;ContentAmendment">
+        <rdfs:label xml:lang="en">content amendment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;RuleOnRule"/>
+        <rdfs:comment xml:lang="en">class of amendment provisions which modify literally the content
+of a norm, or their meaning without literal changes</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Creation -->
+
+    <owl:Class rdf:about="&prv;Creation">
+        <rdfs:label xml:lang="en">creation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Constitutive"/>
+        <rdfs:comment xml:lang="en">class of provisions introducing entities, in the sense that they create previously not-existent entities, of a regulated reality</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Definition -->
+
+    <owl:Class rdf:about="&prv;Definition">
+        <rdfs:label xml:lang="en">definition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Constitutive"/>
+        <rdfs:comment xml:lang="en">class of provisions defining and describing entities of a regulated reality</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Deletion -->
+
+    <owl:Class rdf:about="&prv;Deletion">
+        <rdfs:label xml:lang="en">deletion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;ContentAmendment"/>
+        <owl:disjointWith rdf:resource="&prv;Insertion"/>
+        <rdfs:comment xml:lang="en">Deletion of text</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Duty -->
+
+    <owl:Class rdf:about="&prv;Duty">
+        <rdfs:label xml:lang="en">duty</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&prv;ExplicitDuty"/>
+                    <rdf:Description rdf:about="&prv;ImplicitDuty"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&prv;RuleOnAction"/>
+        <rdfs:comment xml:lang="en">class of provisions indicating the behaviour imposed by a norm</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Establishment -->
+
+    <owl:Class rdf:about="&prv;Establishment">
+        <rdfs:label xml:lang="en">establishment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Creation"/>
+        <rdfs:comment xml:lang="en">class of provisions establishing new institutional bodies</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#ExplicitDuty -->
+
+    <owl:Class rdf:about="&prv;ExplicitDuty">
+        <rdfs:label xml:lang="en">explicit duty</rdfs:label>
+        <rdfs:label xml:lang="en">explicit right</rdfs:label>
+        <owl:equivalentClass rdf:resource="&prv;ImplicitRight"/>
+        <rdfs:subClassOf rdf:resource="&prv;Duty"/>
+        <owl:disjointWith rdf:resource="&prv;ImplicitDuty"/>
+        <rdfs:comment xml:lang="en">class of the Duties explicitly expressed in a legislative text</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#ExplicitLiability -->
+
+    <owl:Class rdf:about="&prv;ExplicitLiability">
+        <rdfs:label xml:lang="en">explicit liability</rdfs:label>
+        <owl:equivalentClass rdf:resource="&prv;ImplicitPower"/>
+        <rdfs:subClassOf rdf:resource="&prv;Liability"/>
+        <owl:disjointWith rdf:resource="&prv;ImplicitLiability"/>
+        <rdfs:comment xml:lang="en">class of the liabilities explicitly expressed in a legislative text</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#ExplicitPower -->
+
+    <owl:Class rdf:about="&prv;ExplicitPower">
+        <rdfs:label xml:lang="en">explicit power</rdfs:label>
+        <owl:equivalentClass rdf:resource="&prv;ImplicitLiability"/>
+        <rdfs:subClassOf rdf:resource="&prv;Power"/>
+        <owl:disjointWith rdf:resource="&prv;ImplicitPower"/>
+        <rdfs:comment xml:lang="en">class of the powers explicitly expressed in a legislative text</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#ExplicitRight -->
+
+    <owl:Class rdf:about="&prv;ExplicitRight">
+        <owl:equivalentClass rdf:resource="&prv;ImplicitDuty"/>
+        <rdfs:subClassOf rdf:resource="&prv;Right"/>
+        <owl:disjointWith rdf:resource="&prv;ImplicitRight"/>
+        <rdfs:comment xml:lang="en">class of the Rights explicitly expressed in a legislative text</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#ExtensionAmendment -->
+
+    <owl:Class rdf:about="&prv;ExtensionAmendment">
+        <rdfs:label xml:lang="en">extension amendment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;RuleOnRule"/>
+        <rdfs:comment xml:lang="en">class of amendment provisions which extend or reduce
+the cases on which the norm operates</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#ImplicitDuty -->
+
+    <owl:Class rdf:about="&prv;ImplicitDuty">
+        <rdfs:label xml:lang="en">implicit duty</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Duty"/>
+        <rdfs:comment xml:lang="en">class of the Duties not expressed in the text, in correlative correspondence with Rights</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#ImplicitLiability -->
+
+    <owl:Class rdf:about="&prv;ImplicitLiability">
+        <rdfs:label xml:lang="en">implicit liability</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Liability"/>
+        <rdfs:comment xml:lang="en">class of the Liabilities not expressed in the text, in correlative correspondence with Powers</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#ImplicitPower -->
+
+    <owl:Class rdf:about="&prv;ImplicitPower">
+        <rdfs:label xml:lang="en">implicit power</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Power"/>
+        <rdfs:comment xml:lang="en">class of the powers not expressed in the text, in correlative correspondence with liabilities</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#ImplicitRight -->
+
+    <owl:Class rdf:about="&prv;ImplicitRight">
+        <rdfs:label xml:lang="en">implicit right</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Right"/>
+        <rdfs:comment xml:lang="en">class of the Rights not expressed in the text, in correlative correspondence with Duties</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Insertion -->
+
+    <owl:Class rdf:about="&prv;Insertion">
+        <rdfs:label xml:lang="en">insertion</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;ContentAmendment"/>
+        <rdfs:comment xml:lang="en">Insertion of text</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Liability -->
+
+    <owl:Class rdf:about="&prv;Liability">
+        <rdfs:label xml:lang="en">liability</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&prv;ExplicitLiability"/>
+                    <rdf:Description rdf:about="&prv;ImplicitLiability"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&prv;Attribution"/>
+        <rdfs:comment xml:lang="en">class of provisions establishing a reduction or extension of the rights of a subject</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Organization -->
+
+    <owl:Class rdf:about="&prv;Organization">
+        <rdfs:label xml:lang="en">organization</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Creation"/>
+        <rdfs:comment xml:lang="en">class of provisions which discipline the organization of new institutional bodies</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Permission -->
+
+    <owl:Class rdf:about="&prv;Permission">
+        <rdfs:label xml:lang="en">permission</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;RuleOnAction"/>
+        <rdfs:comment xml:lang="en">class of provisions indicating behaviours allowed by competent authorities, even derogating from other provisions</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Power -->
+
+    <owl:Class rdf:about="&prv;Power">
+        <rdfs:label xml:lang="en">power</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&prv;ExplicitPower"/>
+                    <rdf:Description rdf:about="&prv;ImplicitPower"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&prv;Attribution"/>
+        <rdfs:comment xml:lang="en">class of provisions establishing the possibility of a subject to produce specific juridical effects, namely to establish, modify or cancel a juridical relationship</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Procedure -->
+
+    <owl:Class rdf:about="&prv;Procedure">
+        <rdfs:label xml:lang="en">procedure</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Definition"/>
+        <rdfs:comment xml:lang="en">class of provisions defining and describing procedures, namely the modality of compliance of a provision regulative of actions</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Prohibition -->
+
+    <owl:Class rdf:about="&prv;Prohibition">
+        <rdfs:label xml:lang="en">prohibition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;RuleOnAction"/>
+        <rdfs:comment xml:lang="en">class of provisions expressing a duty in negative form</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Proponent -->
+
+    <owl:Class rdf:about="&prv;Proponent">
+        <rdfs:label xml:lang="en">proponent</rdfs:label>
+        <rdfs:comment xml:lang="en"> the user wich give ammendment</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Provision -->
+
+    <owl:Class rdf:about="&prv;Provision">
+        <rdfs:label xml:lang="en">provision</rdfs:label>
+        <rdfs:comment xml:lang="en">Class including all the provisions types (as TermDefinition, Procedure, Duty, Right, Power, as well as more technical ones as Insertion, Abrogation, Substitution, etc.) and related attributes (for example the Bearer of a Right, or the Definiendum of a Term Definition), reflecting the lawmaker directions. In the Provision Model, provision types are organised into two main groups: Rules (introducing entities or expressing deontic concepts) and Rules on Rules (different kinds of amendments). The values of provision attributes can be expressed by lexical units, or by concepts derived from thesauri/ontologies, able to provide additional information on the entities of the regulated domain. For each attribute both rdfs:domain and rdfs:range can be specified: rdfs:domain specifies the type of individuals a provision attribute applies to (e.g. the individuals of the class ExplicitDuty for a provision attribute hasExplicitDutyBearer); rdfs:range specifies the type of values of this provision attribute. Since legislative texts can deal with any aspects of the reality, the range of provision attributes modeled by OWL object properties, where not specified, may belong to any class of objects (individual of owl:Class). Note that this cannot be formally defined in the ontology in order to guarantee that the ontology is fully-compliant to the OWL 2 DL profile.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Redress -->
+
+    <owl:Class rdf:about="&prv;Redress">
+        <rdfs:label xml:lang="en">redress</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Remedy"/>
+        <rdfs:comment xml:lang="en">class of provisions that describe the effects of non-compliance with constitutive norms; the result is not a sanction or a punishment, for it is not a breach or violation of any obligation, nor an offence, but nullity</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Regulative -->
+
+    <owl:Class rdf:about="&prv;Regulative">
+        <rdfs:subClassOf rdf:resource="&prv;Rule"/>
+        <rdfs:comment xml:lang="en">class of provisions which discipline actions
+or the substantial and procedural defaults (remedies)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Remedy -->
+
+    <owl:Class rdf:about="&prv;Remedy">
+        <rdfs:label xml:lang="en">remedy</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Regulative"/>
+        <rdfs:comment xml:lang="en">class of regulative provisions which discipline substantial and procedural defaults</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Right -->
+
+    <owl:Class rdf:about="&prv;Right">
+        <rdfs:label xml:lang="en">right</rdfs:label>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&prv;ExplicitRight"/>
+                    <rdf:Description rdf:about="&prv;ImplicitRight"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&prv;RuleOnAction"/>
+        <rdfs:comment xml:lang="en">class of provisions which give the power to act to protect or satisfy a specific interest recognized and protected by the legal system</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Rule -->
+
+    <owl:Class rdf:about="&prv;Rule">
+        <rdfs:label xml:lang="en">rule</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Provision"/>
+        <rdfs:comment xml:lang="en">class of provisions introducing entities or expressing deontic concepts</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#RuleOnAction -->
+
+    <owl:Class rdf:about="&prv;RuleOnAction">
+        <rdfs:label xml:lang="en">rule on action</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Regulative"/>
+        <rdfs:comment xml:lang="en">class of regulative provisions which discipline actions</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#RuleOnRule -->
+
+    <owl:Class rdf:about="&prv;RuleOnRule">
+        <rdfs:label xml:lang="en">rule on rule</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Provision"/>
+        <rdfs:comment xml:lang="en">class of provisions introducing different kinds of amendments (content, temporal and extension amendments)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Status -->
+
+    <owl:Class rdf:about="&prv;Status">
+        <rdfs:label xml:lang="en">status</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Attribution"/>
+        <rdfs:comment xml:lang="en">class of provisions assigning powers and duties to an addressee with specific requirements,classifying him in a particular category of people or in more restricted community</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Substitution -->
+
+    <owl:Class rdf:about="&prv;Substitution">
+        <rdfs:label xml:lang="en">substitution</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Deletion"/>
+        <rdfs:subClassOf rdf:resource="&prv;Insertion"/>
+        <rdfs:comment xml:lang="en">substitution of text is the intersection betwee insertion and deletion, which means is the subclass of the both classes</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#TemporalAmendment -->
+
+    <owl:Class rdf:about="&prv;TemporalAmendment">
+        <rdfs:label xml:lang="en">temporal amendment</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;RuleOnRule"/>
+        <rdfs:comment xml:lang="en">class of amendment provisions which modify the times of a norm
+(come-into-force and efficacy times);</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#TermDefinition -->
+
+    <owl:Class rdf:about="&prv;TermDefinition">
+        <rdfs:label xml:lang="en">term definition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Definition"/>
+        <rdfs:comment xml:lang="en">class of provisions defining and describing terms introducing entities of a regulated reality</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Violation -->
+
+    <owl:Class rdf:about="&prv;Violation">
+        <rdfs:label xml:lang="en">violation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&prv;Remedy"/>
+        <rdfs:comment xml:lang="en">class of provisions that describe the violation of a prohibition, typically linked to an ad-hoc penalty (or sanction)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel# -->
+
+    <owl:Thing rdf:about="http://lod-dk/ontologies/ProvisionModel#">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://lod-dk/ontologies/ProvisionModel#Proponent -->
+
+    <owl:NamedIndividual rdf:about="&prv;Proponent">
+        <owl:sameAs rdf:resource="http://rdfs.org/sioc/ns#UserAccount"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://rdfs.org/sioc/ns#UserAccount -->
+
+    <owl:NamedIndividual rdf:about="http://rdfs.org/sioc/ns#UserAccount"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotations
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://rdfs.org/sioc/spec">
+        <rdfs:label>SIOC Core Ontology Specification</rdfs:label>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

@@ -1,0 +1,46 @@
+1. **** Namespaces management
+
+add the following prefixes to Virtuoso
+
+Go to virtuoso conductor, sign in and select tab "Linked Data", "Namespaces", 
+
+add: 
+
+at: http://publications.europa.eu/ontology/authority/
+cdm: http://publications.europa.eu/ontology/cdm#
+eu: http://eurovoc.europa.eu/schema#
+sioc: http://rdfs.org/sioc/ns#
+schema: http://schema.org/
+lang: http://publications.europa.eu/resource/authority/language/
+
+# from a script via isql 1111 dba dba
+
+load ../virtuoso-opensource/public/ontologies/prefixes.sql
+
+# inside prefixes.sql
+
+DB.DBA.XML_SET_NS_DECL ('at', 'http://publications.europa.eu/ontology/authority/', 2);
+
+
+
+2. **** virtuoso upgrade
+# Download virtuoso from github
+git clone https://github.com/openlink/virtuoso-opensource.git
+
+# stop virtuoso
+sudo service virtuoso-opensource-x.x stop
+
+# install (checking dependecies)
+sh autogen.sh
+
+sudo apt-get install aclocal autoconf autoheader automake glibtoolize bison flex gawk gperf
+sudo apt-get install build-essential libtool
+
+./configure
+make
+sudo make install
+
+
+
+3. **** Useful queries isql
+load 

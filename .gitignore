@@ -1,0 +1,17 @@
+/vendor
+/node_modules
+/storage
+Homestead.yaml
+Homestead.json
+.env
+/nbproject/private
+public/build
+/public/hot
+/public/storage
+/storage/*.key
+/.idea
+/.vscode
+/.vagrant
+npm-debug.log
+yarn-error.log
+/database/ontologies

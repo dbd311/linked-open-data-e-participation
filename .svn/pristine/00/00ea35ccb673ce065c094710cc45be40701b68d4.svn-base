@@ -1,0 +1,732 @@
+/***
+ * event fired when onload document
+ * Display metadata related to the container
+ * @param docID document ID
+ * @param container the container of the post
+ * @param limit limit of the SPARQL results
+ * @param SITENAME sitename
+ * @param SPARQLENDPOINT the SPARQL endpoint
+ *
+ */
+function displayMetadata(docID, container, limit, SITENAME, SPARQLENDPOINT) {
+
+    _LIMIT = limit;
+    _SPARQLENDPOINT = SPARQLENDPOINT;
+    _SITENAME = SITENAME;
+    // get the HTML element containing  language code of the container, i.e. the act
+    _LANG_CODE = document.getElementById('language_code_act_title').value;
+    _ELI_LANG_CODE = document.getElementById('eli_language_code_act_title').value;
+    _COMMENT_LANG_LIST = [_LANG_CODE];
+    // bold the language of the container in the lang chooser toolbar
+    var currentLanguage = document.getElementById('lang_' + _LANG_CODE);
+    currentLanguage.style.fontWeight = 'bold';
+    // count the number of comments for this container
+    getCommentsCount(container, 'number_of_comments_act_title');
+    // display statistics for this container
+    displayAggregatedStatistics(container, _SPARQLENDPOINT, 'document_statistics_pie_chart');
+    
+    getCommentsStatistics(container, 'statistics_previous_user_comments_of_act_title');
+    
+
+    // update the links for more details statistics of container
+    var type_doc = document.getElementById('type_doc_act_title').value;
+    var year = document.getElementById('year_act_act_title').value;
+    var num = document.getElementById('num_act_act_title').value;
+
+    updateLinks(type_doc, year, num);
+}
+
+function updateLinks(type_doc, year, num) {
+    // retrieve all anchors having class name = more-statistics-link
+    var elements = document.getElementsByClassName("more-statistics-link");
+    for (var i = 0; i < elements.length; i++) {
+        var id_fmx_element = elements[i].id.substring(16);
+        document.getElementById(elements[i].id).href = '/show-more-statistics?type_doc=' + type_doc + '&year=' + year + '&num=' + num + '&id_fmx_element=' + id_fmx_element + '&eli_lang_code=' + _ELI_LANG_CODE;
+    }
+
+}
+
+/** Show or hide an element by ID 
+ * @param ID element ID
+ */
+function toggleElementByID(ID) {
+
+// check if the user is logged in or not
+    var loggedin = $('#loggedin');
+    if (loggedin.length === 0) {
+//alert('Please sign in to send a comment!');
+        $('#dialogbox_' + ID).show();
+        location.href = '#dialogbox_' + ID;
+    } else {
+        $('#' + ID).toggle();
+        location.href = '#' + ID;
+    }
+}
+
+/** Show or hide an element by ID and give a positive, neutral or negative judgement 
+ * 
+ * @param noteID note element ID
+ * @param note user note
+ * @param commentID comment element (textarea) ID for writing a comment
+ */
+function updateUserCommentNote(noteID, note, commentID) {
+// modifier la note et la couleur du texte
+    $('#' + noteID).val(note); // JQuery
+
+    var color = 'lightslategrey';
+    if (note === "yes") {
+        color = 'green';
+    } else if (note === "no") {
+        color = 'red';
+    }
+//    alert(color);
+// change text color of the selected element
+    $('#' + commentID).css('color', color);
+}
+
+function togglePreambule() {
+    $('#preambule').toggleClass('ellipsis');
+    if ($('#preambule').hasClass('ellipsis')) {
+        $('#read_more').show();
+        $('#read_less').hide();
+    } else {
+        $('#read_more').hide();
+        $('#read_less').show();
+    }
+}
+
+// Functions to handle user comments
+
+
+/**
+ * This function is used when the user click on the comment icon to show or hide the previous user comments and statistics 
+ * @param {type} ID fragment's HTML ID (e.g. act_title, article 1, 2, 3 etc.)
+ * @param {type} statsID
+ * @param {type} sitename
+ * @param {type} type_doc
+ * @param {type} year
+ * @param {type} num
+ * @param {type} id_formex
+ * @param {type} lang
+ * @returns {undefined}
+ */
+function togglePreviousUserComment(ID, statsID, sitename, type_doc, year, num, id_formex, lang) {
+
+    var userCommentArea = $('#' + ID);
+    userCommentArea.toggle();
+    var displayed = userCommentArea.is(":visible");
+    if (displayed) {
+        var URI_container = sitename + '/eli/' + type_doc + '/' + year + '/' + num;
+        if (id_formex.length > 0) {
+            var fmx_elements = id_formex.split(".");
+            fmx_elements.forEach(function (elm) {
+                var type = elm.substr(0, 3);
+                if (type === 'CHP') {
+                    type = 'CPT';
+                }
+                var num_elm = elm.substr(3, elm.length); // substr($elm, 3, 6)reduire la position de 4 à 2 ou 3....
+                URI_container += '/' + type + '_' + num_elm;
+            });
+        }
+        URI_container += '/' + lang;
+        getPreviousComments(URI_container, ID, statsID);
+    } else {
+        var chartArea = document.getElementById(statsID);
+        chartArea.style.display = 'none';
+    }
+}
+
+/***
+ * Get the selected languages for comments
+ * @param {type} ID
+ * @returns {String}
+ */
+function extractSelectedLanguages(ID) {
+
+    var languages = document.getElementById(ID).childNodes;
+    var comment_lang_list = '';
+    for (var i = 0; i < languages.length; i++) {
+        var element = languages[i];
+        if (element.nodeType === 1) {
+            if (element.style.fontWeight === 'bold') {
+                comment_lang_list += element.innerHTML + " ";
+            }
+        }
+    }
+
+    return comment_lang_list.toLowerCase();
+}
+
+
+function getCommentsStatistics(container, ID) {
+//var query = buildPreviousCommentsQuery(container);
+    var query = buildPreviousCommentsQuery_non_consolidated(container);
+    var queryUrl = _SPARQLENDPOINT + "?query=" + encodeURIComponent(query) + "&format=json";
+//    alert(query);
+    $.ajax({
+        dataType: "jsonp",
+        url: queryUrl,
+        success:
+                function (_data) {
+                    var results = _data.results.bindings;
+                    var yes = 0;
+                    var no = 0;
+                    var mixed = 0;
+                    var average_yes = 0;
+                    var average_no = 0;
+                    var average_mixed = 0;
+                    for (var i in results) {
+                        var comment = results[i];
+                        if (comment.note.value === 'yes') {
+                            yes++;
+                        } else if (comment.note.value === 'no') {
+                            no++;
+                        } else if (comment.note.value === 'mixed') {
+                            mixed++;
+                        }
+                    }
+
+                    var sum = yes + no + mixed;
+                    if (sum !== 0) {
+                        average_yes = 100 * yes / sum;
+                        average_no = 100 * no / sum;
+                        average_mixed = 100 * mixed / sum;
+                    }
+                    var arr = [['Note', 'Percentage'], ['positive', average_yes], ['neutral', average_mixed], ['negative', average_no]];
+                    //setTimeout(function () {
+                    drawChartNote(ID, arr);
+                    //}, 300);
+                }
+    });
+}
+
+/***
+ * Build a query to retrieve previous comments for a container
+ * @param {type} container
+ * @returns query for retrieving comments of a container
+ */
+function buildPreviousCommentsQuery(container) {
+
+    var genericContainerURI = container.substring(0, container.length - 4);
+//    alert(genericContainerURI);
+    var filter = create_language_filter_container(genericContainerURI);
+    var query =
+            'PREFIX sioc: <http://rdfs.org/sioc/ns#> ' +
+            'PREFIX foaf: <http://xmlns.com/foaf/0.1/> ' +
+            'SELECT ?post  ?user ?created_at ?comment ?note ?firstName ?lastName ?avatar LANG(?comment) as ?lang \
+            WHERE { \
+                ?post   sioc:has_container ?container. \
+                ' + filter + '\
+                ?post   sioc:has_creator ?user; \
+                        sioc:created  ?created_at; \
+                        sioc:content ?comment. \
+                ?post sioc:note ?note. \
+                ?user   foaf:name ?firstName; \
+                        foaf:familyName ?lastName; \
+                        sioc:avatar ?avatar. \
+            }  ORDER BY ASC(?created_at) LIMIT ' + _LIMIT;
+    return query;
+}
+
+
+
+function buildPreviousCommentsQuery_non_consolidated(container) {
+
+    var genericContainerURI = container.substring(0, container.length - 4);
+    var filter = create_language_filter_container(genericContainerURI);
+    var query =
+            'PREFIX sioc: <http://rdfs.org/sioc/ns#> ' +
+            'PREFIX foaf: <http://xmlns.com/foaf/0.1/> ' +
+            'SELECT ?post  ?user ?created_at ?comment ?note ?firstName ?lastName ?avatar LANG(?comment) as ?lang \
+            WHERE { \
+                ?post   sioc:has_container ?container. '
+            + filter +
+            ' ?post   sioc:has_creator ?user; \
+                sioc:created  ?created_at; \
+                sioc:content ?comment.\
+                ?post sioc:note ?note.\
+                ?user   foaf:name ?firstName; \
+                foaf:familyName ?lastName; \
+                sioc:avatar ?avatar.\
+        }  ORDER BY ASC(?created_at) LIMIT ' + _LIMIT;
+    return query;
+}
+
+
+// run SPARQL queries using AJAX
+/**
+ * Retrieve previous comments for the container
+ * @param {type} container
+ * @param user_comments_ID HTML element containing the previous comments
+ * @param statistics_comments_ID HTML element containing the statistics of previous comments
+ * @returns previous user comments for this container
+ */
+function getPreviousComments(container, user_comments_ID, statistics_comments_ID) {
+    var query = buildPreviousCommentsQuery(container);
+    var queryUrl = _SPARQLENDPOINT + "?query=" + encodeURIComponent(query) + "&format=json";
+//    alert(query);
+    $.ajax({
+        dataType: "jsonp",
+        url: queryUrl,
+        success:
+                function (_data) {
+
+                    var results = _data.results.bindings;
+                    _COMMENTS = results;
+                    var content = '';
+                    // for each comment, we compute the average note, translate the comment if necessary
+                    var avgNumbers = getAverageNumbersOfComments(results);
+                    var average_yes = avgNumbers[0];
+                    var average_mixed = avgNumbers[1];
+                    var average_no = avgNumbers[2];
+                    for (var i in results) {
+                        var comment = results[i];
+                        var s1 = comment.post.value.replace(_SITENAME, '');
+                        var POSTID = s1.replace(/[./]+/g, "_"); // a valid Javascript post ID
+
+                        getRepliedPosts(comment.post.value, POSTID, _SPARQLENDPOINT);
+                        content += '<div class = "row">';
+                        content += buildCommentToolbar(comment, POSTID);
+                        content += '</div>';
+                        // comment text
+                        content += '<div class = "row-fluid">';
+                        content += '  <div class = "col-md-8 previous_comment_text">' +
+                                ' <span name="previous_comment_text" class="' + getCommentNote(comment.note.value) + '">' + translate(comment) + '</span></div>';
+                        content += '</div>';
+                        // previous answers to this comment
+                        content += '<div class = "row-fluid">';
+                        content += '  <div class = "col-md-8" id="replied-comments-to-post' + POSTID + '"></div>';
+                        content += '</div>';
+                        // answer to this comment
+                        content +=
+                                '<div class = "row-fluid"> \
+                            <div class="col-md-12"> \
+                                <form  method = "POST" action = "/reply-to-previous-comment"> \
+                                    <div id ="reply_previous_comment' + POSTID + '" style="display:none;"> \
+                                        <div> \
+                                            <span class = "fa fa-thumbs-up" title = "Writes a positive anwswer to this comment" onclick="updateUserCommentNote(\'user_note_reply_post' + POSTID + '\', \'yes\', \'reply_previous_comment_text_box' + POSTID + '\');"></span> \
+                                            <span class = "fa fa-meh-o" title = "Write a neutral answer to this comment" onclick="updateUserCommentNote(\'user_note_reply_post' + POSTID + '\', \'mixed\', \'reply_previous_comment_text_box' + POSTID + '\');"></span> \
+                                            <span class = "fa fa-thumbs-down" title = "Write a negative answer to this comment" onclick="updateUserCommentNote(\'user_note_reply_post' + POSTID + '\', \'no\', \'reply_previous_comment_text_box' + POSTID + '\');"></span> \
+                                        </div> \
+                                        <textarea type = "text"  id="reply_previous_comment_text_box' + POSTID + '" name = "reply_previous_comment_text_box" class="reply_previous_comment_text_box"></textarea><br> \
+                                        <input type="hidden" name="replied-post-URI" value="' + comment.post.value + '"> \
+                                        <input type="hidden" name="container_id" value="' + extractContainerIDfromPostURI(comment.post.value) + '"> \
+                                        <input type="hidden" id="user_note_reply_post' + POSTID + '" name="user_note_reply_post" value="mixed"> \
+                                        <input type="submit" class="btn btn-primary" value="Submit"> \
+                                    </div> \
+                                </form> \
+                            </div> \
+                        </div>';
+                    } // end for each comment
+
+                    if (content !== '') {
+                        document.getElementById(user_comments_ID).innerHTML = content;
+                        var arr = [['Note', 'Value'], ['positive', average_yes], ['neutral', average_mixed], ['negative', average_no]];
+                        drawChartNote(statistics_comments_ID, arr);
+                    } else {
+                        document.getElementById(user_comments_ID).innerHTML = '';
+                    }
+                }
+    });
+    //getCommentsCount(container, _SPARQLENDPOINT);
+//    getAverageNote(container);
+}
+
+/***
+ * Translate the comment into one of the selected language
+ * @param {type} result
+ * @returns the translated comment
+ */
+function translate(result) {
+    var comment = result.comment.value;
+    if (_COMMENT_LANG_LIST.indexOf(result.lang.value) >= 0) {
+        return comment;
+    } else {
+        return comment + ' (will be translated into: ' + _COMMENT_LANG_LIST[0] + ')';
+    }
+//return result.comment.value + '@' + result.lang.value;
+}
+/***
+ * 
+ * @param {yes,no,mixed} note user note
+ 
+ * @returns {String}
+ */
+function getCommentNote(note) {
+//    var classNote = 'class ="fa fa-meh-o" title="It was about a neutral comment about the ' + containerType + '."';
+//    if (note === 'yes') {
+//        classNote = 'class ="fa fa-thumbs-up" title="It was about a positive comment about the ' + containerType + '."';
+//    } else if (note === 'no') {
+//        classNote = 'class ="fa fa-thumbs-down" title="It was about a negative comment about the ' + containerType + '."';
+//    }
+
+    var classNote = 'neutral-comment';
+    if (note === 'yes') {
+        classNote = 'positive-comment';
+    } else if (note === 'no') {
+        classNote = 'negative-comment';
+    }
+
+    return classNote;
+}
+/***
+ * Build the toolbar for the comment         
+ * @param comment JSON object representing the comment or post
+ * @param ID element ID that contains the comment
+ * @returns comment toolbar  
+ **/
+function buildCommentToolbar(comment, ID) {
+    return '<div class = "col-md-8"> \
+                        <img alt="avatar" src="' + comment.avatar.value + '"> \
+                        <span class="user-info">' + comment.firstName.value + ' ' + comment.lastName.value + '</span> \
+                        <span class="post-timestamp">' + getDateTimeFromTimeStamp(comment.created_at.value) + '</span> \
+                        <span class="fa fa-reply" title="Reply to this comment" onclick="toggleElementByID(\'reply_previous_comment' + ID + '\')"/> \
+                    </div>';
+}
+
+/***
+ * Extract the container ID from post URI
+ * @param uri post URI
+ */
+function extractContainerIDfromPostURI(uri) {
+    var pos = 0;
+    for (var i = 0; i < uri.length && pos < 6; i++) {
+        if (uri[i] === '/') {
+            pos++;
+        }
+    }
+
+    return uri.substring(i);
+}
+
+/**
+ * Get replied posts of a post
+ * @param post a specific post         
+ * @param POSTID valide Javascript element id for post
+ * @param SPARQLENDPOINT the SPARQL endpoint uri
+ * @return replied posts of this post
+ */
+function getRepliedPosts(post, POSTID) {
+//        $query = 'PREFIX sioc: <http://rdfs.org/sioc/ns#> 
+    //			select ?creator ?note ?comment 
+//			where {<' . $post . '> sioc:has_reply ?post. }'; //not empty.
+    var query = "PREFIX sioc: <http://rdfs.org/sioc/ns#> " +
+            "PREFIX foaf: <http://xmlns.com/foaf/0.1/> " +
+            "\
+                        SELECT ?firstName ?lastName ?avatar ?note ?comment ?created_at \
+                        WHERE { \
+                                <" + post + "> sioc:has_reply ?post.\
+                                ?post sioc:has_creator ?creator.\
+                                ?creator sioc:avatar ?avatar.\
+                                ?creator foaf:name ?firstName.\
+                                ?creator foaf:familyName ?lastName.\
+                                ?post sioc:created  ?created_at.\
+                                OPTIONAL{?post sioc:content ?comment.} \
+                                ?post sioc:note ?note.\
+                        } ORDER BY ASC(?created_at)";
+    var queryUrl = _SPARQLENDPOINT + "?query=" + encodeURIComponent(query) + "&format=json";
+//            alert(queryUrl);
+    $.ajax({
+        dataType: "jsonp",
+        url: queryUrl,
+        success:
+                function (_data) {
+
+                    var results = _data.results.bindings;
+                    var content = '';
+                    for (var i in results) {
+                        var result = results[i];
+                        content += '<div class = "row-fluid">';
+                        content += '  <div class = "col-md-8 replied-comment"> ' +
+                                '       <img alt="avatar" src="' + result.avatar.value + '"> ' +
+                                '       <span class="user-info">' + result.firstName.value + ' ' + result.lastName.value + '</span> ' +
+                                '       <span class="post-timestamp">' + getDateTimeFromTimeStamp(result.created_at.value) + '</span>';
+                        content += '  </div>';
+                        content += '</div>';
+                        content += '<div class = "row-fluid">';
+                        content += '  <div class = "col-md-8 replied-comment-text">' + ' <span name="previous_comment_text" class="' + getCommentNote(result.note.value) + '">' + result.comment.value + '</span>' + '</div>';
+                        content += '</div>';
+                    }
+
+                    //alert(content);
+                    document.getElementById("replied-comments-to-post" + POSTID).innerHTML = content;
+                }
+    });
+}
+
+/***
+ * Get the total number of comments for the container
+ * @param container the container of the post
+ * @param ID the HTML element that contains the number of comments
+ * @returns total number of comments of the act
+ */
+function getCommentsCount(container, ID) {
+    
+    var genericContainer = container.substr(0, container.length - 4);
+    var filter = create_language_filter_container(genericContainer);
+    //for (var i = 0; i < languages.length; i++) {
+    var query =
+            'PREFIX sioc: <http://rdfs.org/sioc/ns#>\
+                SELECT DISTINCT ?number WHERE {\
+                ?container sioc:num_items_totalna ?number. ' +
+            filter +
+            ' }';
+    var queryUrl = _SPARQLENDPOINT + "?query=" + encodeURIComponent(query) + "&format=json";
+    var totalComments = 0;
+// synchronous 
+    $.ajax({
+        url: queryUrl,
+        type: "GET",
+        dataType: "jsonp",
+        async: false,
+        timeout: 5000,
+        cache: false,
+        success: function (_data) {
+            var results = _data.results.bindings;
+            for (var i in results) {
+                totalComments += parseInt(results[i].number.value);
+            }
+        }
+    });
+    //}
+
+    // wait for 300 ms to receive the data
+    setTimeout(function () {
+
+        document.getElementById(ID).textContent = totalComments;
+    }, 300); // executera le code après 300 millisecondes    
+}
+
+
+/***
+ * Get date time info from timestamp
+ * @param {type} timestamp
+ * @returns {undefined}
+ */
+function getDateTimeFromTimeStamp(timestamp) {
+
+    var info = timestamp.substring(6, 8) + "/" + timestamp.substring(4, 6) + "/" + timestamp.substring(0, 4) + " - " + timestamp.substring(8, 10) + ":" + timestamp.substring(10, 12);
+    return info;
+}
+
+
+/***
+ * Toggle the selected language
+ * @param {type} ID
+ * @param container the container
+ * @param lang_code newly selected/deselected language code (2 chars) after onclick event
+ * @returns the list of selected languages
+ */
+function selectLanguage(ID, lang_code, container) {
+// check if lang_code is in the list or not
+    if (_COMMENTS === null) {
+        getPreviousComments(container);
+    }
+
+    var lang = document.getElementById(ID);
+    var index = _COMMENT_LANG_LIST.indexOf(lang_code);
+    if (index >= 0) {
+
+//        alert('delete element ' + _COMMENT_LANG_LIST[index]);
+        _COMMENT_LANG_LIST.splice(index, 1);
+        //lang.style.fontWeight = 'normal';
+        lang.className = 'lang-unselected';
+    } else {
+        //lang.style.fontWeight = 'bold';
+        lang.className = 'lang-selected';
+        _COMMENT_LANG_LIST.push(lang_code);
+    }
+
+//    getCommentsCount(container, SPARQL_END_POINT);
+
+    var content = '';
+    for (var i in _COMMENTS) {
+        var comment = _COMMENTS[i];
+        var s1 = comment.post.value.replace(_SITENAME, '');
+        var POSTID = s1.replace(/[./]+/g, "_"); // a valid Javascript post ID
+
+        getRepliedPosts(comment.post.value, POSTID, _SPARQLENDPOINT);
+        content += '<div class = "row">';
+        content += buildCommentToolbar(comment, POSTID);
+        content += '</div>';
+        // comment text
+        content += '<div class = "row-fluid">';
+        content += '  <div class = "col-md-8 previous-comment-text">' +
+                ' <span name="previous_comment_text" class="' + getCommentNote(comment.note.value) + '">' + translate(comment) + '</span></div>';
+        content += '</div>';
+        // previous answers to this comment
+        content += '<div class = "row-fluid">';
+        content += '  <div class = "col-md-8" id="replied-comments-to-post' + POSTID + '"></div>';
+        content += '</div>';
+        // answer to this comment
+        content +=
+                '<div class = "row-fluid"> \
+                            <div class="col-md-12"> \
+                                <form  method = "POST" action = "/reply-to-previous-comment"> \
+                                    <div id ="reply_previous_comment' + POSTID + '" style="display:none;"> \
+                                        <div> \
+                                            <span class = "fa fa-thumbs-up" title = "Writes a positive anwswer to this comment" onclick="updateUserCommentNote(\'user_note_reply_post' + POSTID + '\', \'yes\', \'reply_previous_comment_text_box' + POSTID + '\');"></span> \
+                                            <span class = "fa fa-meh-o" title = "Write a neutral answer to this comment" onclick="updateUserCommentNote(\'user_note_reply_post' + POSTID + '\', \'mixed\', \'reply_previous_comment_text_box' + POSTID + '\');"></span> \
+                                            <span class = "fa fa-thumbs-down" title = "Write a negative answer to this comment" onclick="updateUserCommentNote(\'user_note_reply_post' + POSTID + '\', \'no\', \'reply_previous_comment_text_box' + POSTID + '\');"></span> \
+                                        </div> \
+                                        <textarea type = "text"  id="reply_previous_comment_text_box' + POSTID + '" name = "reply_previous_comment_text_box" class="reply_previous_comment_text_box"></textarea><br> \
+                                        <input type="hidden" name="replied-post-URI" value="' + comment.post.value + '"> \
+                                        <input type="hidden" name="container_id" value="' + extractContainerIDfromPostURI(comment.post.value) + '"> \
+                                        <input type="hidden" id="user_note_reply_post' + POSTID + '" name="user_note_reply_post" value="mixed"> \
+                                        <input type="submit" class="btn btn-primary" value="Submit"> \
+                                    </div> \
+                                </form> \
+                            </div> \
+                        </div>';
+    } // end for each comment
+
+    document.getElementById("previous-user-comments-of-act").innerHTML = content;
+}
+
+
+String.format = function () {
+// The string containing the format items (e.g. "{0}")
+// will and always has to be the first argument.
+    var theString = arguments[0];
+    // start with the second argument (i = 1)
+    for (var i = 1; i < arguments.length; i++) {
+// "gm" = RegEx options for Global search (more than one instance)
+// and for Multiline search
+        var regEx = new RegExp("\\{" + (i - 1) + "\\}", "gm");
+        theString = theString.replace(regEx, arguments[i]);
+    }
+
+    return theString;
+}
+
+
+/***
+ * Display a list of documents
+ * @returns {undefined}
+ */
+function displayDocList() {
+    var query = 'PREFIX sioc: <http://rdfs.org/sioc/ns#> \
+            SELECT DISTINCT ?id ?title \
+            WHERE {\
+                ?act a sioc:Forum.\
+                ?act sioc:id ?id.\
+                ?act sioc:title ?title. \
+                FILTER (LANG(?title) = "' + _LANG_CODE + '")}'; // add new properties for act... 
+
+
+    var queryUrl = _SPARQLENDPOINT + "?query=" + encodeURIComponent(query) + "&format=json";
+//    alert(queryUrl);
+    var docList = '';
+    var total = 0;
+    // synchronous 
+    $.ajax({
+        url: queryUrl,
+        type: "GET",
+        dataType: "jsonp",
+        async: false,
+        timeout: 5000,
+        cache: false,
+        success: function (_data) {
+            var results = _data.results.bindings;
+            for (var i in results) {
+                var doc = results[i];
+                docList += String.format('<div><span class="search-results"></span><a href="/lod/documents/displayDoc/id/{0}/lang/{1}">{2}</a></div>', doc.id.value, _LANG_CODE, doc.title.value);
+                total++;
+            }
+        }
+    });
+    // wait for 50 ms to receive the data
+    setTimeout(function () {
+        document.getElementById("docList").innerHTML = docList;
+        document.getElementById("search_total_results").innerHTML = total;
+    }, 200); // executera le code après 300 millisecondes             
+}
+
+/***
+ * Update the list of documents with statistics and number of comments
+ * @returns {undefined}
+ */
+function updateDocList() {
+
+// extract doc list    
+    var elements = document.getElementsByClassName("search-list-item-ID");
+    for (var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        var IDCOMNAT = element.getAttribute("value");
+        var genericAct = document.getElementById("generic-act-" + IDCOMNAT).getAttribute("value");
+        updateStatistics(genericAct, "number-of-comments-" + IDCOMNAT, "search-list-item-chart-" + IDCOMNAT);
+    }
+}
+
+/**
+ * Compute the statistics of the act
+ * @param {type} actID
+ * @param eID element containing the number of comments
+ * @param statID elemetn containing the pie chart
+ * @returns  
+ */
+function updateStatistics(genericAct, eID, statID) {
+    var number = 0;
+    var query = 'PREFIX sioc: <http://rdfs.org/sioc/ns#> \
+                PREFIX schema: <http://schema.org/> \
+                 SELECT distinct  ?total ?yes ?no ?mixed\
+                WHERE {\
+                      <' + genericAct + '> sioc:num_items_total ?total;\
+                            sioc:num_items_yes ?yes; \
+                            sioc:num_items_no ?no; \
+                            sioc:num_items_mixed ?mixed.\
+                }';
+
+    var queryUrl = _SPARQLENDPOINT + "?query=" + encodeURIComponent(query) + "&format=json";
+//      alert(query);
+// synchronous 
+    $.ajax({
+        url: queryUrl,
+        type: "GET",
+        dataType: "jsonp",
+        async: false,
+        timeout: 5000,
+        contentType: "charset=utf-8",
+        cache: false,
+        success: function (_data) {
+            var results = _data.results.bindings;
+            // the generic container has the most number of comments is results[0]
+            for (var i in results) {
+                if (results[i].total) {
+                    number = results[i].total.value;
+                } else {
+                    number = 0;
+                }
+                drawChartAct(results[i].yes.value, results[i].no.value, results[i].mixed.value, results[i].total.value, statID);
+            }
+        }
+    });
+// wait for 100 ms to receive the data
+    setTimeout(function () {
+        if (number) {
+            document.getElementById(eID).innerHTML = number;
+        }
+
+    }, 200);
+}
+
+function drawChartAct(yes, no, mixed, total, chartID) {
+//    alert(chartID);
+    var average_yes = 100 * yes / total;
+    var average_no = 100 * no / total;
+    var average_mixed = 100 * mixed / total;
+    var data = [['Note', 'Value'], ['positive', average_yes], ['neutral', average_mixed], ['negative', average_no]];
+    var chartArea = document.getElementById(chartID);
+    chartArea.style.display = 'block';
+    var chart = new google.visualization.PieChart(chartArea);
+    var datatable = google.visualization.arrayToDataTable(data);
+    var options = {
+        //title: 'My Daily Activities',
+//        is3D: true,
+        legend: 'none',
+        slices: {0: {color: 'green'}, 1: {color: 'gray'}, 2: {color: 'red'}}
+//        chartArea: {width: '100%'},
+    };
+
+    chart.draw(datatable, options);
+}

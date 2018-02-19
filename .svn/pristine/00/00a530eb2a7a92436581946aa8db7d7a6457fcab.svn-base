@@ -1,0 +1,133 @@
+angular.module('moreStatisticsCtrl', [])
+
+.controller('moreStatisticsCtrl', function ($scope, Config, Statistics) {
+    $scope.chart_width = 160;
+    $scope.chart_height = 160;
+
+    /**
+     * Display more statistics for group
+     * @param {type} containerURI     
+     * @param {type} ID
+     * @param {type} note
+     * @param {type} statisticsType
+     */
+    $scope.displayMoreStatisticsGroup = function (containerURI, ID, note, statisticsType) {
+        if (statisticsType === "0" || statisticsType === '') { // aggregated
+            Statistics.getByGroupAggregated(containerURI,note)
+            .success(function (data) {
+                var results = data.results.bindings;
+                for (var i in results) {
+                    var arr = [['Group', 'Percentage']];
+                    for (var i in results) {
+                        var result = results[i];
+                        arr.push(Statistics.getDataChartByGroupAggregated(result));
+                    }
+                    Config.drawChartNoColor(arr, ID, $scope.chart_width, $scope.chart_height, 'bottom');
+                }
+            });
+        } else { // non aggregated
+            Statistics.getByGroupNoAggregated(containerURI,note)
+            .success(function (data) {
+                var results = data.results.bindings;
+                var arr = [['Group', 'Percentage']];
+                var totalNumber = 0;
+                for (var i in results) {
+                    var result = results[i];
+                    totalNumber += result.number.value;
+                }
+                for (var i in results) {
+                    arr.push(Statistics.getDataChartByGroupNoAggregated(result,totalNumber));
+                }
+                Config.drawChartNoColor(arr, ID, $scope.chart_width, $scope.chart_height, 'bottom');
+            });
+        }
+    };
+
+    /**
+     * Display more statistics for nationality
+     * @param {type} containerURI     
+     * @param {type} ID
+     * @param {type} note
+     * @param {type} statisticsType
+     */
+    $scope.displayMoreStatisticsNationality = function (containerURI, ID, note, statisticsType) {
+        if (statisticsType === "0" || statisticsType === '') { // aggregated            
+            Statistics.getByNationalityAggregated(containerURI,note)
+            .success(function (data) {
+                var results = data.results.bindings;
+                var arr = [['Nationality', 'Percentage']];
+                for (var i in results) {
+                    var result = results[i];
+                    arr.push(Statistics.getDataChartByNationalityAggregated(result));
+                    Config.drawChartNoColor(arr, ID, $scope.chart_width, $scope.chart_height, 'bottom');
+                }
+            });
+        }
+        else {
+            Statistics.getByNationalityAggregated(containerURI,note)
+            .success(function (data) {
+                var results = data.results.bindings;
+                var arr = [['Nationality', 'Percentage']];
+                var totalNumber = 0;
+                for (var i in results) {
+                    var result = results[i];
+                    totalNumber += result.number.value;
+                }
+                for (var i in results) {
+                    var result = results[i];
+                    arr.push(Statistics.getDataChartByNationalityNoAggregated(result,totalNumber));
+                }
+
+                Config.drawChartNoColor(arr, ID, $scope.chart_width, $scope.chart_height, 'bottom');
+            });
+        }
+    };
+
+    /**
+     * Display more statistics for language
+     * @param {type} containerURI     
+     * @param {type} ID
+     * @param {type} note
+     * @param {type} statisticsType
+     */
+    $scope.displayMoreStatisticsLanguage = function (containerURI, ID, note, statisticsType) {
+        if (statisticsType === "0" || statisticsType === '') { // aggregated
+            Statistics.getByLanguageAggregated(containerURI,note)
+            .success(function (data) {
+                var result = data.results.bindings[0];
+                var arr = [['Language', 'Percentage']];
+                var key = '';
+                for (key in result) {
+                    if (result.hasOwnProperty(key)) {
+                        if (key !== 't') {
+                            arr.push(Statistics.getDataChartByLanguageAggregated(result,key));
+                        }
+                    }
+                }
+                Config.drawChartNoColor(arr, ID, $scope.chart_width, $scope.chart_height, 'bottom');
+            });
+        }
+        else {
+            Statistics.getByLanguageNoAggregated(containerURI,note)
+            .success(function (data) {
+                var result = data.results.bindings[0];
+                var arr = [['Language', 'Percentage']];
+                var totalna = 0;
+                var key = '';
+                for (key in result) {
+                    if (result.hasOwnProperty(key)) {
+                        totalna += result[key].value;
+                    }
+                }
+                for (key in result) {
+                    if (result.hasOwnProperty(key)) {
+                        if (key !== 't') {
+                            arr.push(Statistics.getDataChartByLanguageNoAggregated(result,key,totalna));
+                        }
+                    }
+                }
+                Config.drawChartNoColor(arr, ID, $scope.chart_width, $scope.chart_height, 'bottom');
+            });
+        }
+    };
+});

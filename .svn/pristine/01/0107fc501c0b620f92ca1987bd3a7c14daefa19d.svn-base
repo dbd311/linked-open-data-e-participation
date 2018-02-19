@@ -1,0 +1,46 @@
+@extends('layouts.lodepart-fancy')
+
+@section('title')
+<title>Search for query '<?php echo $query = Request::get('query'); ?>'</title>
+@stop
+
+@section('css-local')
+<link rel="stylesheet" href="/css/pagination/zebra_pagination.css" />
+
+@stop
+
+@section('main-content')
+<div id="page-content"> 
+    <?php
+    if (empty($retriever)) {
+        $retriever = new App\Retriever\ElasticRetriever();
+    }
+
+    if (!empty($query)) {
+
+        $docs = $retriever->retrieveDocs($query);
+        $total = $docs['hits']['total'];
+        if ($total > 0) {
+            ?>
+
+            We found more than <strong><?php echo $total ?></strong> results for query '<?php echo '<strong>' . $query . '\'</strong><div>&nbsp;</div>' ?>
+
+            <?php
+        } else {
+            echo 'No results found for this query<br>';
+        }
+    } else {
+        echo 'Your query is empty or not valid!';
+    }
+    ?>
+    <div class='seach-results'>
+        <?php
+        if (!empty($docs)) {
+            $retriever->paginate($docs, 10);
+        }
+        ?>
+    </div>
+
+</div>
+
+@stop

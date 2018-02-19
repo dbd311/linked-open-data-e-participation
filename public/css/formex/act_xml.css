@@ -1,0 +1,463 @@
+/**
+ * Copyright 2015 European Commission
+ *
+ * Licensed under the EUPL, Version 1.1 or  as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ *     https://joinup.ec.europa.eu/software/page/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and limitations under the Licence.
+ */
+@import "bill_actions.css";
+@import "article_xml.css";
+@import "cover_page.css";
+@import "pdf_styles.css";
+
+
+/*-----------------------------------------------------------------------------
+    AKN main style
+-----------------------------------------------------------------------------*/
+
+div[contains='alinea'] {
+    width: 100%;
+}
+
+div[contains='act'] {
+    display: block;
+    color: black;
+    background-color: white;
+    /* LegisWrite Normal style */
+    font-family: "Times New Roman", Times, serif;
+    font-size: 13pt;
+    font-style: normal;
+    font-weight: normal;
+    text-align: justify;
+    line-height: 1.25em;     
+/*     min-height: 24.7cm; */
+    /* box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);*/
+    white-space: normal;
+    width:100%;
+    /* overflow: hidden;*/
+}
+
+/*-----------------------------------------------------------------------------
+    AKN bill styles
+-----------------------------------------------------------------------------*/
+div[contains='bill'] {
+    display: block;
+    padding: 0;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+div[contains='act'] p[contains='p'] {
+    display: block;
+    padding-top: 6pt;
+    padding-bottom: 6pt;    
+    margin: 0;
+}
+/*-----------------------------------------------------------------------------
+    AKN preface styles
+-----------------------------------------------------------------------------*/
+/* Styles adapted from LegisWrite:
+    - Statut
+    - Type du document
+    - Titre objet
+*/
+div[contains='bill'] div[contains='preface'] {
+    display: block;
+    padding-top: 9pt;
+    padding-bottom: 9pt;
+}
+
+div[contains='bill'] div[contains='preface'] div[contains='title'] div[contains='ti'] > p[contains='p'] {
+    display: block;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 9pt;
+    padding-bottom: 9pt;
+}
+
+
+/*-----------------------------------------------------------------------------
+    AKN preamble styles
+-----------------------------------------------------------------------------*/
+/* Styles adapted from LegisWrite:
+    - Institution qui agit
+    - Normal
+    - Consid rant
+    - Formule d'adoption
+*/
+div[contains='act'] div[contains='preamble'] {
+    display: block;
+    /* Boris
+    padding-top: 24pt;
+    padding-bottom: 14pt; extra spacing for improved readability */
+    /*padding-left: 25px;*/
+}
+
+div[contains='act'] div[contains='institution_acting'] {
+    display: block;
+}
+
+div[contains='act'] div[contains='gr_citations'] {
+    display: block;
+}
+
+div[contains='act'] > div[contains='citation'] {
+    display: block;
+}
+
+div[contains='act'] div[contains='gr_recitals'] {
+    display: block;
+}
+
+div[contains='bill'] div[contains='gr_recitals'] > div[contains='intro'] {
+    display: block;
+}
+
+div[contains='gr_recitals'] {
+    display: block;
+}
+
+div[contains='recital'] {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+div[contains='recital'] div[contains='np'] > span[contains='no_np'] {
+    display: table-cell;
+    width: 2em;
+    /*Normal: Space Before: 6pt*/
+    padding-top: 6pt;
+    /*Normal: Space After: 6pt*/
+    padding-bottom: 6pt;
+}
+
+/* Boris */
+.span[contains='no_np']:after {
+    font-family: "Glyphicons Halflings";
+    content: "\2212";
+}
+/* Icon when the collapsible content is hidden */
+.span[contains='no_np'].collapsed:after {
+    content: "\2b";
+}
+
+/* end Boris */
+
+div[contains='recital'] div[contains='np'] > p[contains='p'] {
+    display: table-cell;
+}
+
+/*-----------------------------------------------------------------------------
+    AKN body styles
+-----------------------------------------------------------------------------*/
+/* Styles adapted from LegisWrite:
+    - Partdiv[contains='title
+    - Chapterdiv[contains='title
+    - Sectiondiv[contains='title
+    - Normal
+*/
+
+div[contains='act'] div[contains='part'] {
+    display: block;
+}
+
+div[contains='act'] div[contains='part'] > div[contains='num'], div[contains='part'] > div[contains='heading'] {
+    display: block;
+    /* LegisWrite Partdiv[contains='title style */
+    font-size: 18pt;
+    font-weight: bold;
+    text-align: center;
+    /*Normal: Space Before: 6pt*/
+    padding-top: 6pt;
+    /*Partdiv[contains='title: Space After: 18pt*/
+    padding-bottom: 18pt;
+}
+
+div[contains='act'] div[contains='title']{
+    display: block;
+    font-weight: bold;
+    text-align: center;
+}
+
+div[contains='act'] div[contains='title'] > div[contains='num'], div[contains='title'] > div[contains='heading'] {
+    display: block;
+    /* LegisWrite (=Partdiv[contains='title) style */
+    font-size: 18pt;
+    font-weight: bold;
+    text-align: center;
+    /*Normal: Space Before: 6pt*/
+    padding-top: 6pt;
+    /*Partdiv[contains='title: Space After: 18pt*/
+    padding-bottom: 18pt;
+}
+
+div[contains='bill'] div[contains='chapter'] {
+    display: block;
+}
+
+div[contains='bill'] div[contains='chapter'] > div[contains='num'], div[contains='chapter'] > div[contains='heading'] {
+    display: block;
+    /* LegisWrite Chapterdiv[contains='title style */
+    font-size: 16pt;
+    font-weight: bold;
+    text-align: center;
+    /*Normal: Space Before: 6pt*/
+    padding-top: 6pt;
+    /*Chapterdiv[contains='title: Space After: 18pt*/
+    padding-bottom: 18pt;
+}
+
+div[contains='bill'] div[contains='section'] {
+    display: block;
+}
+
+div[contains='bill'] div[contains='section'] > div[contains='num'], div[contains='section'] > div[contains='heading'] {
+    display: block;
+    /* LegisWrite Sectiondiv[contains='title style */
+    font-size: 14pt;
+    font-weight: bold;
+    text-align: center;
+    /*Normal: Space Before: 6pt*/
+    padding-top: 6pt;
+    /*Sectiondiv[contains='title: Space After: 18pt*/
+    padding-bottom: 18pt;
+    /*Sectiondiv[contains='title: Small caps*/
+    font-variant: small-caps;
+    letter-spacing: 1px; /* extra spacing for improved readability */
+}
+
+div[contains='bill'] div[contains='subsection'] {
+    display: block;
+}
+
+div[contains='bill'] div[contains='subsection'] > div[contains='num'], div[contains='subsection'] > div[contains='heading'] {
+    display: block;
+    /* LegisWrite (=Sectiondiv[contains='title - Bold) style */
+    font-size: 14pt;
+    text-align: center;
+    /*Normal: Space Before: 6pt*/
+    padding-top: 6pt;
+    /*Sectiondiv[contains='title: Space After: 18pt*/
+    padding-bottom: 18pt;
+    /*Sectiondiv[contains='title: Small caps*/
+    font-variant: small-caps;
+    letter-spacing: 1px; /* extra spacing for improved readability */
+}
+
+div[contains='act'] div[contains='article'] {
+    padding-left: 25px;
+    padding-right: 5px;
+}
+
+/*-----------------------------------------------------------------------------
+    AKN signature styles
+-----------------------------------------------------------------------------*/
+/* Styles adapted from LegisWrite:
+    - Fait  
+    - Institution qui signe
+    - Personne qui signe
+*/
+
+div[contains='act'] div[contains='conclusions'] {
+    display: block;
+    padding-top: 20pt; /* extra spacing for improved readability */
+}
+
+div[contains='act'] div[contains='signature'] {
+    display: block;
+    padding: 16pt 0;
+}
+
+div[contains='signature'] > * {
+    display: block;
+    text-align: center;
+    padding: 3pt 0;
+    font-style: italic;
+}
+
+/*---    LEOS Table of Contents styles ------------*/
+.leos-toc {
+    display: block;
+}
+
+.leos-toc-header {
+    display: block;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    font-variant: small-caps;
+    letter-spacing: 1px;
+    padding-bottom: 1em;
+}
+
+.leos-toc-item {
+    display: block;
+    padding-left: 1em;
+    padding-top: 0.25em; /* extra spacing for improved readability */
+    padding-bottom: 0.25em; /* extra spacing for improved readability */
+}
+
+.leos-toc-link {
+    text-decoration: none;
+}
+
+.leos-toc-link:hover {
+    text-decoration: underline;
+}
+
+/*-----------------------------------------------------------------------------
+    AKN authorial note styles
+-----------------------------------------------------------------------------*/
+div[contains='note'] {
+    display: inline;
+    font-size: 0.8em;
+    line-height: 0.8em;
+    vertical-align: baseline;
+    position: relative;
+    bottom: 0.5em;
+    cursor: pointer;
+    font-weight: bold;
+    color: blue;
+}
+
+div[contains='note'][data-tooltip] {
+    cursor: pointer;
+    font-weight: bold;
+    color: blue;
+}
+
+div[contains='note'][data-tooltip]:before,div[contains='note'][data-tooltip]:after
+{
+    bottom: 0;
+    display: none;
+    position: absolute;
+}
+
+div[contains='note'][data-tooltip]:before {
+    content: "";
+    border-top: 0.6em solid blue;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    left: -0.25em;
+    margin-bottom: 1.25em;
+}
+
+div[contains='note'][data-tooltip]:after {
+    content: attr(data-tooltip);
+    color: white;
+    background-color: blue;
+    border-radius: 7px;
+    padding: 5px 15px;
+    left: -1.5em;
+    margin-bottom: 1.75em;
+    white-space: nowrap;
+}
+
+@media screen {
+    div[contains='note'][data-tooltip]:hover:before, note[data-tooltip]:hover:after {
+        display: block;
+    }
+}
+/*----------------------------------------------------------------------------
+ For Display at end of page
+ ----------------------------------------------------------------------------*/
+.leos-authnote-table{
+    display: table;
+    padding-right:2em;
+    padding-left: 3em;
+    word-break: break-all;
+    word-wrap: break-word;
+    table-layout: fixed;
+}
+
+.leos-authnote{
+    display: table-row;
+}
+
+.leos-authnote marker {
+    display: block;
+    font-size: 0.7em;
+    vertical-align: baseline;
+    position: relative;
+    bottom: 0.5em;
+    font-weight: bold;
+    color: blue;
+    float:left;
+    padding-bottom: 1em;
+}
+
+.leos-authnote text {
+    display: block;
+    margin-left: 1.2em;
+}
+
+.leos-authnote[id]{
+    cursor: pointer;
+}
+/*-----------------------------------------------------------------------------
+ For Display in editor 
+-----------------------------------------------------------------------------*/
+
+@media screen {
+    .leos-toc {
+        display: block;
+        padding: 2.0cm 2.5cm; /* LegisWrite page margins */
+        margin: 0.5cm auto;
+        width: 18.2cm;
+        min-height: 24.7cm;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        white-space: normal;
+        overflow: hidden;
+    }   
+
+    note:before,note:after {
+        bottom: 0;
+        display: none;
+        position: absolute;
+    }
+}
+
+/*-----------------------------------------------------------------------------
+    AKN miscellaneous styles
+-----------------------------------------------------------------------------*/
+div[contains='bill'] div[contains='placeholder'] {
+    display: inline;
+    font-weight: bold;
+    color: blue;
+}
+
+div[contains='bill'] div[contains='omissis'] {
+    display: inline;
+    font-weight: bold;
+}
+
+div[contains='bill'] div[contains='date'] {
+    display: inline;
+    font-weight: bold;
+}
+
+div[contains='bill'] div[contains='ref'] {
+    display: inline;
+    font-weight: bold;
+}
+
+/*-----------------------------------------------------------------------------
+    AKN custom element styles
+-----------------------------------------------------------------------------*/
+/* Style adapted from LegisWrite:
+    - Application directe
+*/
+div[contains='bill'] div[contains='application'] {
+    display: block;
+    /*Application directe: Space Before: 24pt*/
+    padding-top: 24pt;
+    /*Normal: Space After: 6pt*/
+    padding-bottom: 6pt;
+}

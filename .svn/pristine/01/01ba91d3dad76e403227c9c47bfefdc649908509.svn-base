@@ -1,0 +1,378 @@
+angular.module('searchListItemCtrl', [])
+
+        .controller('searchListItemCtrl', function ($filter, $scope, Config, Document, searchService) {
+            
+            // Init the selected criteria
+            $scope.selectedCriteria = '1';
+            
+            // Init the themes
+            $scope.themes = '';
+
+            // JQuery to create the propositions list of keywords (in the search)
+            $(".keywords-search").keydown(function (e) {
+                if (e.which === 40) {
+                    e.preventDefault();
+                    if ($scope.suggestions.length > count + 1) {
+                        count = count + 1;
+                        $(".theme-option")[count].focus();
+                    }
+                }
+                if (e.which === 38) {
+                    e.preventDefault();
+                    if (count > 0) {
+                        count = count - 1;
+                        $(".theme-option")[count].focus();
+                    }
+                }
+            });
+
+            /**
+             * Pagination : function to load a clicked number of page
+             */
+            function loadPage() {
+                $scope.documentsDisplay = [];
+                var begin = (($scope.currentPage - 1) * $scope.nbElementsPerPage);
+                var end = begin + Number($scope.nbElementsPerPage);
+                for (var i = begin; i < end; i++) {
+                    if (i < $scope.documents.length) {
+                        $scope.documentsDisplay.push($scope.documents[i]);
+                    }
+                }
+            };
+
+            /**
+             * Pagination : function to count the page number
+             * @returns {Array|Number}
+             */
+            $scope.range = function () {
+                if (typeof $scope.documents === 'undefined')
+                    return 0;
+                return new Array(Math.round($scope.documents.length / $scope.nbElementsPerPage));
+            };
+            
+            /**
+             * Pagination : function to charge the page in parameter
+             * @param {type} page
+             */
+            $scope.changePage = function (page) {
+                $scope.currentPage = page;
+                loadPage();
+            };
+
+            /**
+             * Pagination : function to charge the previous page
+             */
+            $scope.previousPage = function () {
+                $scope.currentPage = $scope.currentPage - 1;
+                loadPage();
+            };
+
+            /**
+             * Pagination : function to charge the next page
+             */
+            $scope.nextPage = function () {
+                $scope.currentPage++;
+                loadPage();
+            };
+
+            /**
+             * Function the format a date
+             * @param {String} date
+             * @returns {String} date
+             */
+            $scope.formatDate = function (date) {
+                if (date !== "")
+                    date = $filter('date')(new Date(date), "yyyy-MM-dd");
+                return date;
+            };
+            
+            /**
+             * Function to exit the list of propositions of keywords
+             */
+            $scope.exitThemes = function () {
+                $scope.suggestions = [];
+            };
+
+            // List of colors for pie chart
+            var colorArray = ['#668014', '#949494', '#CD0000'];
+            
+            /**
+             * Function which return the list of colors
+             * @returns {Function}
+             */
+            $scope.colorFunction = function () {
+                return function (d, i) {
+                    return colorArray[i];
+                };
+            };
+            
+            /**
+             * Function which return the list of notes
+             * @returns {Function}
+             */
+            $scope.xFunction = function () {
+                return function (d) {
+                    return d.Note;
+                 };
+            };
+            
+            /**
+             * Function which return the list of values
+             * @returns {Function}
+             */
+            $scope.yFunction = function () {
+                return function (d) {
+                    return d.Value;
+                };
+            };
+
+            /**
+             * Function to init the list of documents
+             */
+            $scope.initDocuments = function () {
+                $scope.currentPage = 1;
+                $scope.nbElementsPerPage = "5";
+                Document.get('date')
+                        .success(function (docs) {
+                            $scope.documents = docs;
+                            for (var i = 0; i < $scope.documents.length; i++) {
+                                var doc = $scope.documents[i];
+                                doc.date = $scope.formatDate(doc.date);
+                            }
+                            loadPage();
+                        });
+            };
+
+            /**
+             * Function to draw the document pie chart
+             * @param {Document} document
+             * @param {String} genericAct
+             * @returns {Number}
+             */
+            $scope.drawChartForItem = function (document, genericAct) {
+                document = document[0][0];
+                Document.getNumbersOfTypeDocumentForItem(genericAct)
+                        .success(function (data) {
+                            var results = data.results.bindings;
+                            for (var i in results) {
+                                var result = results[i];
+                                if (result.total.value > 0) {
+                                    document.dataPieChart = Document.getDataChartForItem(result);
+                                }
+                            }
+                        });
+                return 0;
+            };
+
+            /**
+             * Function to find the most popular document for the current week
+             */
+            $scope.findMostPopularThisWeek = function () {
+                Document.get('date')
+                        .success(function (docs) {
+                            $scope.documents = docs;
+                            var docPopular = $scope.documents[0];
+                            for (var i = 0; i < $scope.documents.length; i++) {
+                                var document = $scope.documents[i];
+                                if (parseInt(document.nbOfComments) > parseInt(docPopular.nbOfComments)) {
+                                    docPopular = document;
+                                }
+                            }
+                            $scope.popularDoc = {};
+                            var title = docPopular.title;
+                            $scope.popularDoc.title_popuplar_this_week = title;
+                            $scope.popularDoc.short_title_popuplar_this_week = title.substring(0, 150);
+                            if (title.length > 150) {
+                                $scope.popularDoc.short_title_popuplar_this_week = $scope.popularDoc.short_title_popuplar_this_week.concat('...');
+                            }
+                            $scope.popularDoc.numberOfComments = docPopular.nbOfComments;
+                            $scope.popularDoc.path = docPopular.path;
+                            Document.getNumbersOfTypeDocumentAggregated(docPopular.genericActURI)
+                                    .success(function (data) {
+                                        var results = data.results.bindings;
+                                        for (var i in results) {
+                                            var result = results[i];
+                                            $scope.popularDoc.dataPieChart = [
+                                                {Note: "Positive", Value: result.yes.value / result.total.value * 100},
+                                                {Note: "Neutral", Value: result.mixed.value / result.total.value * 100},
+                                                {Note: "Negative", Value: result.no.value / result.total.value * 100}
+                                            ];
+                                        }
+                                    });
+                            loadPage();
+                        });
+            };
+            
+            /**
+             * Function to calculate the statistics for a document
+             * @param {Number} yes
+             * @param {Number} mixed
+             * @param {Number} no
+             * @param {Number} total
+             * @param {Document} document
+             
+             */
+            $scope.calculateStatistics = function (yes, mixed, no, total, document) {
+                document = document[0][0];
+                var average_yes = 100 * yes / total;
+                var average_mixed = 100 * mixed / total;
+                var average_no = 100 * no / total;
+
+                document.dataPieChart = [
+                    {Note: "positive", Value: average_yes},
+                    {Note: "neutral", Value: average_mixed},
+                    {Note: "negative", Value: average_no}
+                ];
+            };
+
+            /**
+             * Function which filtering the list of documents with the user search
+             */
+            $scope.filteredDocuments = function () {
+
+                $scope.currentPage = 1;
+                Document.filter(Config.lang, $scope.selectedCriteria, $scope.themes, $scope.dateFrom, $scope.dateTo)
+                        .success(function (docs) {
+
+                            $scope.documents = docs;
+                            for (var i = 0; i < $scope.documents.length; i++) {
+                                $scope.documents[i].date = $scope.formatDate($scope.documents[i].date);
+                            }
+                            loadPage();
+                        }).error(function (data, status) {
+                    alert('Cannot filter documents! Please checking document service!')
+                });
+            };
+
+            $scope.displayDocumentListInYear = function () {
+                $scope.currentPage = 1;
+                // reset themes
+                $scope.themes = [];
+                // collect years in years and moreYears
+                $scope.yearList = [];
+                // check in the first five years
+                angular.forEach($scope.years, function (year) {
+
+                    if (year.selected) {
+//                        alert('year: ' + year.value);
+                        $scope.yearList.push(year.value);
+                    }
+                });
+
+                // check in the next five years
+                angular.forEach($scope.moreYears, function (year) {
+
+                    if (year.selected) {
+//                        alert('year: ' + year.value);
+                        $scope.yearList.push(year.value);
+                    }
+                });
+
+
+                $scope.yearList.sort();
+                Document.filterYears(Config.interfaceLanguage, $scope.yearList).success(function (docs) {
+
+                    $scope.documents = docs;
+                    for (var i = 0; i < $scope.documents.length; i++) {
+                        $scope.documents[i].date = $scope.formatDate($scope.documents[i].date);
+                    }
+                    loadPage();
+                }).error(function (data, status) {
+                    alert('Cannot filter documents! Please check document service module!')
+                });
+            }
+
+            /*** keywords suggestion ***/
+            $scope.suggestions = [];
+            $scope.getSuggestions = function () {
+                var listThemes = $scope.themes.split(';');
+
+                var data = {pattern: listThemes[listThemes.length - 1], eli_lang_code: Config.langDoc};
+                searchService.getSuggestions(data).then(
+                        function (result) {
+                            $scope.suggestions = result.data.results.bindings;
+                        },
+                        function (result) {
+                            $scope.suggestions = [];
+                        });
+                count = -1; 
+            };
+
+            /**
+             * Function to add a new theme to the keywords list 
+             * @param {String} theme
+             */
+            $scope.addTheme = function (theme) {
+                // split current themes
+                //var themes = $scope.themes.split('/[;]+/g');
+                var themes = $scope.themes.split(';');
+
+                $scope.themes = '';
+
+                for (var i = 0; i < themes.length - 1; i++) {
+                    $scope.themes += themes[i] + '; ';
+                }
+
+                // add this theme to the list
+                if ($scope.themes.indexOf(theme) === -1) {
+                    $scope.themes += theme + ';';
+                }
+
+                $(".theme-input").value += ';';
+                $(".theme-input").focus();
+
+                $scope.suggestions = [];
+            };
+
+            $scope.total = [];
+            $scope.moreTotal = [];
+
+            /**
+             * Load procedures of the last five years
+             */
+            $scope.loadProceduresYears = function () {
+                var curYear = new Date().getFullYear();
+
+                $scope.years = []; // nb of documents per year
+                for (var i = 0; i < 5; i++) {
+                    var year = curYear - i;
+                    $scope.years.push({'value': year, 'selected': false});
+                }
+            };
+
+
+            $scope.loadMoreProceduresYears = function () {
+                var curYear = new Date().getFullYear();
+
+                $scope.moreYears = []; // nb of documents per year
+
+                for (var i = 5; i < 10; i++) {
+                    var year = curYear - i;
+                    $scope.moreYears.push({'value': year, 'selected': false});
+                }
+            };
+
+            $scope.getTotalDocuments = function (year) {
+                var count = 0;
+                Document.getTotalDocuments(year, Config.langDoc).success(function (data) {
+                    var results = data.results.bindings;
+                    for (var i in results) {
+                        count = results[i].total.value;
+                        $scope.total[year] = count;
+                    }
+                });
+            };
+
+            $scope.getMoreTotalDocuments = function (year) {
+                var count = 0;
+                Document.getTotalDocuments(year, Config.langDoc).success(function (data) {
+                    var results = data.results.bindings;
+                    for (var i in results) {
+                        count = results[i].total.value;
+//                        alert(count);
+                        $scope.moreTotal[year] = count;
+                    }
+                });
+            };
+
+        });

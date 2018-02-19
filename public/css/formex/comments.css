@@ -1,0 +1,155 @@
+/**
+ * Copyright 2015 European Commission
+ *
+ * Licensed under the EUPL, Version 1.1 or  as soon they will be approved by the European Commission - subsequent versions of the EUPL (the "Licence");
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ *
+ *     https://joinup.ec.europa.eu/software/page/eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and limitations under the Licence.
+ */
+
+#main-content{
+    padding-left:30px;
+}
+
+.languages-comment{
+    font-size: 10pt;
+}
+
+
+.previous-comments{
+    width:100%;
+    padding-left: 30px;
+    display: none;
+}
+
+
+.user-comment-form  {
+    /*border: 1px solid;*/
+    width:100%;
+    display: none;
+}
+
+
+
+
+
+
+.comment {
+    width: 60%;
+}
+
+
+.previous-comment-text{
+    /*border-bottom: 1px solid;*/
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    border-bottom-color: gray;
+}
+
+
+.comment-text-box {
+    width: 100%;
+    color: lightslategrey;
+}
+
+ 
+
+#reply_previous_comment_text_box{
+    width: 400px;    
+}
+ 
+ 
+
+/*
+.ellipsis {
+
+    overflow: hidden;
+    text-overflow: ellipsis;    
+    display: block;
+    display: -webkit-box;
+    height: 119px;
+    margin: auto;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+#read_more {
+    cursor: pointer;    
+    border: 0px;
+    color: blue;
+}
+
+#read_less {
+    cursor: pointer;
+    border: 0px;    
+    text-align: center;
+    display: none;
+}*/
+
+.thumb {
+    display: inline-block;    
+    width:30px;
+    height:40px;    
+    vertical-align: middle;
+    background-repeat: no-repeat;
+}
+
+#number-of-comments-act{
+    padding-right: 5px;
+}
+
+.replied-comment {
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+.replied-comment-text {
+    padding-left: 45px;
+    padding-bottom: 10px;
+}
+
+.post-timestamp{
+    color: gray;
+}
+
+.user-info {
+    color: blue;
+}
+
+.positive-comment{
+    color: green;
+}
+
+.negative-comment{
+    color: red;
+}
+
+.neutral-comment {
+    color: lightslategrey;
+}
+
+#statistics_previous_user_comments_of_act_title {
+    width: 150px;
+    height: 200px;
+}
+
+.statistics-chart-area{
+    width: 200px;
+    height: 100px;
+}
+
+.statistics-chart-area-subdivision {
+    width: 200px;
+    height:100px;    
+}
+
+.statistics-chart-area-details{
+    width: 20%;
+    height: 300px;
+}
+
